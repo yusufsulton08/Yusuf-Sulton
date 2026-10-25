@@ -1,0 +1,3212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Al-Qudwah">
+<meta name="theme-color" content="#0b1f3a">
+<title>Al-Qudwah Dashboard</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>
+(function(){
+  try {
+    var canvas = document.createElement('canvas');
+    canvas.width = 180; canvas.height = 180;
+    var ctx = canvas.getContext('2d');
+    if(!ctx) return;
+    ctx.fillStyle = '#0b1f3a';
+    ctx.fillRect(0,0,180,180);
+    ctx.fillStyle = '#a8844a';
+    ctx.font = 'bold 110px "Playfair Display", Georgia, serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Q', 90, 98);
+    var iconDataUrl = canvas.toDataURL('image/png');
+    var link = document.createElement('link');
+    link.rel = 'apple-touch-icon';
+    link.href = iconDataUrl;
+    document.head.appendChild(link);
+  } catch(e) {}
+})();
+</script>
+
+<style>
+:root{--bg:#f6f1e7;--card:#fffaf0;--ink:#0b1f3a;--mute:#5a6a82;--line:#e3d9c4;--hero:#0b1f3a;--hero-ink:#f6f1e7;--gold:#a8844a;--ok:#2f7d5b;--bad:#b3392f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#081526;--card:#0f2340;--ink:#f1ead9;--mute:#9db0c9;--line:#203b60;--hero:#16365f;--hero-ink:#f6f1e7;--gold:#d2ad73;--ok:#5fc49a;--bad:#ff8b7e}}
+:root[data-theme="dark"]{--bg:#081526;--card:#0f2340;--ink:#f1ead9;--mute:#9db0c9;--line:#203b60;--hero:#16365f;--hero-ink:#f6f1e7;--gold:#d2ad73;--ok:#5fc49a;--bad:#ff8b7e}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-tap-highlight-color:transparent;overflow-x:hidden;max-width:100%}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden;max-width:100%;width:100%}
+body::before{content:'';position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);background:var(--hero);z-index:70;pointer-events:none}
+h1,h2,h3{font-family:"Playfair Display",Georgia,serif;margin:0;font-weight:700;overflow-wrap:break-word}
+.wrap{max-width:880px;width:100%;margin:0 auto;padding:20px 16px 88px;overflow-x:hidden}
+.hero{background:var(--hero);color:var(--hero-ink);border-radius:18px;padding:24px 26px;display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center}
+.hero-left{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;min-width:0}
+.hero-arabic{font-size:52px;color:var(--gold);font-family:"Playfair Display",Georgia,serif;line-height:1.05;font-weight:700;letter-spacing:0.01em}
+.hero-sub{font-size:15px;color:var(--hero-ink);letter-spacing:0.08em;text-transform:uppercase;font-weight:600;opacity:0.92}
+.hero-right{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:10px;margin-left:auto;text-align:right}
+.stats{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.stat{background:rgba(255,255,255,.1);border-radius:12px;padding:8px 16px;text-align:center}
+.stat b{display:block;font:700 22px "Playfair Display",Georgia,serif}.stat span{font-size:12px;opacity:.8}
+.tabs{overflow-x:auto;display:flex;gap:6px;margin:18px 0;background:var(--card);border:1px solid var(--line);padding:5px;border-radius:14px;scrollbar-width:none;max-width:100%;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1 0 auto;white-space:nowrap;border:0;background:none;color:var(--mute);font:600 14px Inter,system-ui,sans-serif;padding:10px 14px;border-radius:10px;cursor:pointer;transition:background .2s}
+.tab[aria-selected=true]{background:var(--hero);color:var(--hero-ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:14px;max-width:100%}
+.card h2{font-size:21px;margin-bottom:8px}.card h3{font-size:18px}
+.eyebrow{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:6px}
+.mute{color:var(--mute);font-size:14px;margin:4px 0 0}
+.tl{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.step{border:1px solid var(--line);border-radius:12px;padding:12px}.step b{display:block;color:var(--gold);font-size:13px}.step span{font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin:14px 0}
+.pr{border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px}.pr b{display:block;margin-bottom:4px}
+.quote{border-left:3px solid var(--gold);margin:14px 0;padding:4px 0 4px 14px;font:italic 600 18px/1.5 "Playfair Display",Georgia,serif}
+.row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.row.first{border-top:0}
+.chk{appearance:none;-webkit-appearance:none;width:24px;height:24px;margin-top:2px;flex:none;border:2px solid var(--line);border-radius:6px;cursor:pointer;position:relative;background:var(--bg);transition:all .2s}
+.chk:checked{border-color:var(--ok);background:rgba(47,125,91,.08)}
+.chk:checked::after{content:'';position:absolute;left:7px;top:-5px;width:8px;height:20px;border:solid var(--ok);border-width:0 3px 3px 0;transform:rotate(45deg)}
+.grow{flex:1;min-width:0}
+.done .t{text-decoration:line-through;color:var(--mute)}
+.date{font-size:12px;color:var(--gold);font-weight:600;margin-top:2px}
+.hint{cursor:help;outline:none}
+.hint:focus-visible{background:rgba(168,132,74,.2)}
+.tip{position:fixed;z-index:80;background:var(--hero);color:var(--hero-ink);padding:10px 12px;border-radius:10px;font:400 13px/1.4 Inter,system-ui,sans-serif;font-style:normal;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.3);display:block;border:1px solid rgba(230,200,143,.4);user-select:none;-webkit-user-select:none}
+.tip b{display:block;color:#e6c88f;font-size:14px;margin-bottom:2px}
+.bar{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin:8px 0 4px}.bar i{display:block;height:100%;background:var(--gold);transition:width .3s}
+.btn{background:var(--hero);color:var(--hero-ink);border:0;border-radius:10px;padding:9px 16px;font:600 14px Inter,system-ui,sans-serif;cursor:pointer;margin-top:10px;transition:opacity .2s}
+.btn[disabled]{opacity:.6;cursor:default}
+.btn:active{opacity:.8}
+.badge{display:inline-block;font-size:12px;font-weight:600;color:var(--gold)}
+.foot{text-align:center;color:var(--mute);font-size:12px;margin-top:20px}
+.paras p{margin:10px 0 0}
+.paras ::selection{background:rgba(168,132,74,.35)}
+.quiz{border-top:1px solid var(--line);margin-top:16px;padding-top:14px}
+.mc-q{margin:16px 0 8px;font-weight:600}
+.mc-opts{display:flex;flex-direction:column;gap:8px}
+.mc-opt{text-align:left;background:var(--bg);border:1.5px solid var(--line);padding:10px 14px;border-radius:10px;cursor:pointer;color:var(--ink);font:inherit;transition:all .2s;line-height:1.4}
+.mc-opt[aria-pressed="true"]{border-color:var(--gold);background:rgba(168,132,74,.1)}
+.mc-opt:disabled{cursor:default;opacity:.9}
+.mc-exp{margin-top:8px;padding:12px;border-radius:10px;font-size:14px;line-height:1.45}
+.mc-exp.ok{background:rgba(47,125,91,.1);color:var(--ok);border:1px solid var(--ok)}
+.mc-exp.bad{background:rgba(179,57,47,.08);color:var(--bad);border:1px solid var(--bad)}
+.mc-exp b{display:block;margin-bottom:4px;font-size:15px}
+.feature{background:var(--hero);color:var(--hero-ink);border-color:var(--hero)}
+.feature .eyebrow{color:#e6c88f}
+.feature .row{border-color:rgba(255,255,255,.16)}
+.feature .mute,.feature .done .t{color:rgba(246,241,231,.72)}
+.feature .bar{background:rgba(255,255,255,.18)}.feature .bar i{background:#e6c88f}
+.feature .chk{accent-color:#e6c88f}
+.feature .date{color:#e6c88f}
+.feature .date.open{color:#8fd9b6}
+.feature .locked .t{color:rgba(246,241,231,.62)}
+.feature .lvsub{color:rgba(246,241,231,.85)}
+.lvsub b{color:#e6c88f;font-weight:700;letter-spacing:.02em}
+.addrow{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap;align-items:center;max-width:100%}
+.addrow .btn,.row .btn{margin-top:0}
+.txt{flex:1;min-width:0;max-width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;transition:border-color .2s}
+.txt:focus{outline:2px solid var(--gold);outline-offset:1px}
+.editrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;max-width:100%}
+.addrow .txt,.editrow .txt{flex:1 1 160px;min-width:0}
+.addrow .txt.big,.editrow .txt.big{flex:2 1 200px;min-width:0}
+.addrow .txt.sel,.editrow .txt.sel,.addrow .txt.dt,.editrow .txt.dt{flex:0 1 auto;max-width:100%;min-width:0}
+.txt.dt,.txt.sel{color-scheme:light dark}
+.txt.sel{cursor:pointer}
+.row .editrow{width:100%}
+.btn.sm{padding:7px 12px}
+.btn.ghost{background:none;color:var(--ink);border:1.5px solid var(--line)}
+.tdrow{display:flex;gap:10px;justify-content:space-between;align-items:flex-start}
+.tdrow .t{flex:1;min-width:0;overflow-wrap:anywhere}
+.acts{display:flex;gap:6px;flex:none;align-items:center}
+.lnk{background:none;border:0;color:var(--gold);font:600 13px Inter,system-ui,sans-serif;cursor:pointer;padding:2px 4px}
+.lnk.del{color:var(--bad)}
+.row.hi{border-left:3px solid var(--bad);padding-left:10px}
+.bang{color:var(--bad)}.date.late{color:var(--bad)}
+.today{border:1.5px solid var(--gold);box-shadow:0 6px 22px rgba(168,132,74,.16)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 8px}
+.chip{border:1.5px solid var(--line);background:none;color:var(--mute);border-radius:999px;padding:5px 14px;font:600 13px Inter,system-ui,sans-serif;cursor:pointer;transition:all .2s}
+.chip.on{background:var(--hero);border-color:var(--hero);color:var(--hero-ink)}
+.empty{color:var(--mute);font-size:14px;margin:12px 0 0}
+.rpop{position:fixed;z-index:90;background:var(--hero);color:var(--hero-ink);border:1px solid rgba(230,200,143,.45);border-radius:14px;padding:12px 40px 12px 14px;box-shadow:0 12px 32px rgba(0,0,0,.32);user-select:none;-webkit-user-select:none}
+.rpop.sheet{left:12px !important;right:12px !important;width:auto !important;top:auto !important;bottom:calc(12px + env(safe-area-inset-bottom,0px)) !important;padding:14px 44px 14px 16px;border-radius:18px;box-shadow:0 -8px 32px rgba(0,0,0,.4)}
+.rclose{position:absolute;top:8px;right:10px;width:30px;height:30px;border:0;background:none;color:var(--hero-ink);opacity:.7;font:400 22px/1 Inter,system-ui,sans-serif;cursor:pointer}
+.rw{font:700 17px "Playfair Display",Georgia,serif;color:#e6c88f;overflow-wrap:anywhere}
+.rt{font-size:15px;margin:4px 0 10px;min-height:22px;overflow-wrap:anywhere}
+.rbtns{display:flex;gap:8px}.rbtns .rbtn{flex:1}
+.rbtn{width:100%;border:0;border-radius:9px;padding:8px 12px;background:#e6c88f;color:#0b1f3a;font:600 13px Inter,system-ui,sans-serif;cursor:pointer}
+.rbtn[disabled]{opacity:.8;cursor:default}
+.rbtn.ghost{background:none;color:#e6c88f;border:1px solid rgba(230,200,143,.5)}
+.exp{display:block;width:100%;font:inherit;font-size:15px;line-height:1.6;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;resize:vertical}
+.exp:focus{outline:2px solid var(--gold);outline-offset:1px}
+.ins h4{font:700 17px "Playfair Display",Georgia,serif;margin:20px 0 0}
+.ins h4:first-child{margin-top:12px}
+.note{border-left:3px solid var(--gold);background:rgba(168,132,74,.1);border-radius:0 12px 12px 0;padding:2px 16px 12px;margin:12px 0 0}
+.note p:first-child{font-weight:600}
+.disc{font-size:13px;margin:16px 0 0}
+.alert{display:flex;align-items:center;flex-wrap:wrap;gap:14px;background:var(--hero);color:var(--hero-ink);border:1.5px solid #e6c88f;border-radius:16px;padding:16px 18px;margin-bottom:14px;box-shadow:0 8px 26px rgba(168,132,74,.28)}
+.alert .ico{flex:none;width:36px;height:36px;border-radius:50%;background:#e6c88f;color:#0b1f3a;font:700 18px "Playfair Display",Georgia,serif;display:flex;align-items:center;justify-content:center}
+.alert .msg{flex:1 1 220px;min-width:0;font-size:15px;line-height:1.45}
+.alert .msg b{display:block;font:600 12px Inter,system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#e6c88f;margin-bottom:3px}
+.abtn{border:0;border-radius:10px;padding:9px 16px;background:#e6c88f;color:#0b1f3a;font:600 14px Inter,system-ui,sans-serif;cursor:pointer}
+.alert.soft{background:rgba(168,132,74,.14);color:var(--ink);border-color:var(--gold);box-shadow:none}
+.alert.soft .ico{background:var(--gold);color:var(--card)}
+.alert.soft .msg b{color:var(--gold)}
+.alert.soft .abtn{background:var(--hero);color:var(--hero-ink)}
+.alert.done{border-color:var(--ok);box-shadow:none}
+.alert.done .ico{background:var(--ok);color:var(--card)}
+.alert.done .msg b{color:#8fd9b6}
+.alert.soft.done .msg b{color:var(--ok)}
+.gear{flex:none;width:32px;height:32px;margin:-2px 0 0 0;padding:0;border:0;background:none;color:var(--mute);border-radius:8px;font:700 20px/1 Inter,system-ui,sans-serif;cursor:pointer;opacity:.75}
+.gear:hover,.gear.on{opacity:1;color:var(--ink);background:rgba(168,132,74,.16)}
+.addrow .gear{margin:0}
+.panel{margin-top:10px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);max-width:100%}
+.panel .txt{background:var(--card)}
+.feature .panel{color:var(--ink)}
+.feature .gear{color:var(--hero-ink)}
+.pfoot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+.pacts{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.lnk:disabled{opacity:.32;cursor:default}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.card-head>.grow{flex:1 1 0%;min-width:0}
+.rem-row{padding:14px 0;border-top:1px solid var(--line)}
+.rem-row.first{border-top:0}
+.rem-body{border-left:3px solid var(--gold);padding:2px 0 2px 14px;min-width:0}
+.rem-row.pinned .rem-body{border-left-width:4px;background:rgba(168,132,74,.06);border-radius:0 10px 10px 0;padding:8px 12px 8px 14px}
+.rem-text{font:600 16px/1.55 "Playfair Display",Georgia,serif;color:var(--ink);overflow-wrap:anywhere}
+.rem-note{font-size:13.5px;color:var(--mute);margin-top:4px;line-height:1.45;overflow-wrap:anywhere}
+.rem-meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
+.pin-badge{font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--hero-ink);background:var(--gold);padding:2px 7px;border-radius:5px;display:inline-block}
+.tab.ws-btn{flex:0 0 auto;padding:10px 12px;font-size:15px;line-height:1;opacity:.8}
+.tab.ws-btn[aria-expanded=true]{background:var(--hero);color:var(--hero-ink);opacity:1}
+.ws-card{border:1.5px solid var(--gold);background:var(--card)}
+.ws-list{display:flex;flex-direction:column;gap:8px;margin:12px 0}
+.ws-item{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);max-width:100%}
+.ws-item.is-hidden{opacity:.58}
+.ws-item .txt{flex:1 1 140px;min-width:0;max-width:100%;padding:6px 10px;font-size:14px;background:var(--card)}
+.sec-bar{display:flex;justify-content:center;gap:14px;margin:6px 0 16px;flex-wrap:wrap}
+.sec-btn{background:none;border:1px dashed var(--line);color:var(--mute);border-radius:10px;padding:7px 14px;font:600 12.5px Inter,system-ui,sans-serif;cursor:pointer;transition:all .2s}
+.sec-btn:hover{border-color:var(--gold);color:var(--gold)}
+.advrow{display:flex;flex-wrap:wrap;gap:10px 12px;margin:10px 0 0;max-width:100%}
+.fl{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--mute);font-weight:600;min-width:0;flex:1 1 180px;max-width:100%}
+.fl.wide{flex:1 1 100%}
+.fl .txt{flex:none;width:100%;max-width:100%}
+.fl .chips{margin:0}
+.chip.day{padding:5px 10px;min-width:46px;text-align:center}
+.err{color:var(--bad);margin:8px 0 0}
+.sprint{background:var(--card);border:1px solid var(--gold);border-top:5px solid var(--gold);border-radius:18px;padding:28px 26px;box-shadow:0 16px 40px rgba(10,20,35,.08);position:relative;overflow:hidden;max-width:100%}
+.sprint::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;border-radius:18px;background:linear-gradient(180deg, rgba(168,132,74,.05) 0%, transparent 100%);pointer-events:none}
+.sprint-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:18px;margin-bottom:14px;border-bottom:1px solid var(--line);position:relative;z-index:1}
+.sprint-head>.grow{flex:1 1 260px;min-width:0}
+.sprint-ctrl{display:flex;align-items:flex-start;gap:10px;flex:0 0 auto;max-width:100%}
+.subtasks{margin:6px 0 2px 4px;padding-left:clamp(10px,2.2vw,14px);border-left:1.5px dashed rgba(168,132,74,.35);max-width:100%}
+.subtask-node{margin-top:8px;max-width:100%}
+.subtask-row{display:flex;gap:10px;align-items:flex-start;max-width:100%}
+.subtask-row .chk{width:20px;height:20px;border-width:1.5px;margin-top:2px}
+.subtask-row .chk:checked::after{left:6px;top:-4px;width:6px;height:16px;border-width:0 2px 2px 0}
+.subtask-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:3px}
+.chev{background:none;border:0;color:var(--gold);font:600 12.5px Inter,system-ui,sans-serif;cursor:pointer;padding:2px 0;display:inline-flex;align-items:center;gap:4px}
+.chev:hover{opacity:.8}
+.sub-add-btn{flex:none;width:28px;height:28px;margin:-1px 0 0 0;padding:0;border:1px solid transparent;background:none;color:var(--gold);border-radius:8px;font:500 18px/1 Inter,system-ui,sans-serif;cursor:pointer;opacity:.75;display:inline-flex;align-items:center;justify-content:center;transition:all .2s}
+.sub-add-btn:hover,.sub-add-btn.on{opacity:1;color:var(--gold);border-color:rgba(168,132,74,.4);background:rgba(168,132,74,.14)}
+.sub-inline-form{margin-top:8px;padding:8px 10px;border:1px dashed rgba(168,132,74,.4);border-radius:10px;background:var(--bg);max-width:100%}
+.sub-inline-form .txt{background:var(--card);padding:7px 10px;font-size:14px}
+.sprint h2{font-size:28px;letter-spacing:-.01em;margin-bottom:6px}
+.sprint-sub{color:var(--mute);font-size:14.5px;line-height:1.55;max-width:520px;margin:0;overflow-wrap:break-word}
+.sprint-dl{border:1.5px solid var(--gold);background:var(--bg);border-radius:12px;padding:10px 16px;text-align:right;flex:none;max-width:100%}
+.sprint-dl b{display:block;font:700 15px "Playfair Display",Georgia,serif;color:var(--ink)}
+.sprint-dl span{display:block;font-size:12px;color:var(--gold);font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-top:2px}
+.sprint .row{padding:14px 0}
+.sprint .iform{margin-top:14px;padding-top:6px}
+.arch-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px}
+.arch-head>.grow{flex:1 1 200px;min-width:0}
+.arch-mark{width:20px;height:20px;margin-top:2px;flex:none;border-radius:6px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--mute)}
+.row.done .arch-mark{border-color:var(--gold);color:var(--gold)}
+.tag-badge{font-size:11px;font-weight:600;color:var(--gold);letter-spacing:0.05em;text-transform:uppercase;border:1px solid var(--line);padding:2px 8px;border-radius:6px;display:inline-block;background:none;cursor:pointer;font-family:Inter,system-ui,sans-serif;transition:all .18s}
+.tag-badge:hover{border-color:var(--gold);background:rgba(168,132,74,.14)}
+.inline-tag{display:inline-block;font:600 11.5px/1.3 Inter,system-ui,sans-serif;color:var(--gold);background:rgba(168,132,74,.1);border:1px solid rgba(168,132,74,.35);border-radius:5px;padding:1px 6px;margin:0 2px;cursor:pointer;vertical-align:baseline;transition:all .15s}
+.inline-tag:hover{background:var(--gold);color:var(--hero-ink)}
+.md-quote{border-left:3px solid var(--gold);margin:6px 0;padding:4px 0 4px 12px;font-style:italic;color:var(--mute);background:rgba(168,132,74,.05);border-radius:0 8px 8px 0}
+.md-link{color:var(--gold);text-decoration:underline;text-underline-offset:3px;font-weight:500}
+.md-link:hover{opacity:.8}
+.reg-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:7px}
+.reg-cd{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:8px;font:600 12.5px Inter,system-ui,sans-serif;letter-spacing:.01em;border:1.5px solid var(--gold);color:var(--gold);background:rgba(168,132,74,.1);max-width:100%;overflow-wrap:anywhere}
+.reg-cd.urgent{border-color:var(--bad);color:var(--bad);background:rgba(179,57,47,.1)}
+.reg-cd.done{border-color:var(--ok);color:var(--ok);background:rgba(47,125,91,.1)}
+.reg-freq{font-size:12px;color:var(--mute);font-weight:500}
+.sync-pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.12);color:var(--hero-ink)}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.sync-dot.ok{background:var(--ok)}
+.sync-dot.off{background:var(--bad)}
+
+/* Widget Engine & Block Builder Styles */
+.widget-wrap{position:relative;max-width:100%}
+.widget-wrap.editing{border:1.5px dashed var(--gold);border-radius:18px;padding:10px;margin-bottom:16px;background:rgba(168,132,74,.04)}
+.widget-wrap.editing>.card,.widget-wrap.editing>.alert{margin-bottom:0}
+.w-toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:6px 10px;margin-bottom:8px;background:var(--bg);border:1px solid var(--line);border-radius:10px;font-size:12px}
+.w-title-pill{font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;font-size:11px;display:flex;align-items:center;gap:6px}
+.w-ctrls{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.w-sel{font:600 12px Inter,system-ui,sans-serif;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:7px;padding:4px 8px;cursor:pointer;max-width:160px}
+.layout-banner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;margin-bottom:14px;border-radius:14px;background:rgba(168,132,74,.14);border:1.5px solid var(--gold);color:var(--ink)}
+.layout-banner b{color:var(--gold);text-transform:uppercase;letter-spacing:.08em;font-size:12px;display:block}
+.pwa-guide{border-left:3px solid var(--gold);background:rgba(168,132,74,.08);border-radius:0 12px 12px 0;padding:10px 14px;margin-top:12px;font-size:13.5px;line-height:1.5}
+.pwa-guide b{color:var(--gold);display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+
+@media(max-width:768px),(pointer:coarse){
+  .rpop,.tip{left:12px !important;right:12px !important;width:auto !important;top:auto !important;bottom:calc(12px + env(safe-area-inset-bottom,0px)) !important;border-radius:16px;padding:14px 44px 14px 16px;box-shadow:0 -8px 32px rgba(0,0,0,.4)}
+}
+@media(max-width:600px){
+  .sprint-head{flex-direction:column;align-items:stretch;gap:14px}
+  .sprint-head>.grow{flex:none;width:100%}
+  .sprint-sub{max-width:none}
+  .sprint-ctrl{width:100%;justify-content:space-between;align-items:center}
+  .sprint-dl{flex:1 1 auto;min-width:0;width:auto;text-align:left}
+}
+@media(max-width:520px){
+  .hero{padding:20px 18px}
+  .hero-arabic{font-size:46px}
+  .tab{font-size:13px}.card{padding:16px}
+  .sprint{padding:20px 16px}.sprint h2{font-size:24px}
+  .subtasks{margin-left:0;padding-left:10px}
+}
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="wrap">
+    <div class="card">
+      <div class="eyebrow">Al-Qudwah</div>
+      <h2>Preparing Workspace...</h2>
+      <p class="mute" id="boot-msg">Loading offline-ready dashboard...</p>
+    </div>
+  </div>
+</div>
+<script>
+window.addEventListener("error",function(e){
+  var el=document.getElementById("boot-msg");
+  if(el){
+    el.textContent="Script error: "+(e&&e.message?e.message:"Unknown")+(e&&e.lineno?" (line "+e.lineno+")":"");
+  }
+});
+function onCdnError(scriptEl, fallbackUrl, filename){
+  scriptEl.onerror = null;
+  if (window.__pwaVault && window.__pwaVault.loadFromVault(filename)) return;
+  if (fallbackUrl) {
+    var s = document.createElement("script");
+    s.src = fallbackUrl;
+    s.onerror = function(){
+      if (window.__pwaVault) window.__pwaVault.loadFromVault(filename);
+    };
+    document.head.appendChild(s);
+  }
+}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js" onerror="onCdnError(this,'https://unpkg.com/react@18.3.1/umd/react.production.min.js','react.production.min.js')"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js" onerror="onCdnError(this,'https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js','react-dom.production.min.js')"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" onerror="onCdnError(this,'','firebase-app-compat.js')"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js" onerror="onCdnError(this,'','firebase-database-compat.js')"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDKCpZ0p6moxD1z9G-N5iNJ3ISvroJw2Uw",
+  authDomain: "yusufrealdesk.firebaseapp.com",
+  databaseURL: "https://yusufrealdesk-default-rtdb.firebaseio.com",
+  projectId: "yusufrealdesk",
+  storageBucket: "yusufrealdesk.firebasestorage.app",
+  messagingSenderId: "324071217327",
+  appId: "1:324071217327:web:820d2bffc343f49a6cdc5a",
+  measurementId: "G-NGN254YG5L"
+};
+
+let rtdb = null;
+let isFirebaseConfigured = false;
+try {
+  const hasValidKeys = firebaseConfig &&
+    firebaseConfig.apiKey &&
+    firebaseConfig.apiKey !== "YOUR_API_KEY" &&
+    firebaseConfig.databaseURL &&
+    !firebaseConfig.databaseURL.includes("YOUR_PROJECT_ID");
+  if (hasValidKeys && typeof firebase !== "undefined") {
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    rtdb = firebase.database();
+    isFirebaseConfigured = true;
+  }
+} catch (err) {
+  console.warn("Firebase not configured or unavailable; using offline localStorage cache.", err);
+}
+
+var bootAttempts = 0;
+function startDashboard(){
+if(typeof React==="undefined"||typeof ReactDOM==="undefined"){
+  bootAttempts++;
+  if(bootAttempts===5 && window.__pwaVault){
+    window.__pwaVault.loadFromVault("react.production.min.js");
+    window.__pwaVault.loadFromVault("react-dom.production.min.js");
+  }
+  if(bootAttempts > 40){
+    var el=document.getElementById("boot-msg");
+    if(el) el.innerHTML="Offline cold start: core React scripts were not cached yet. Connect briefly to the internet once to cache all resources for permanent offline use.";
+    return;
+  }
+  setTimeout(startDashboard,100);
+  return;
+}
+const h=React.createElement,{useState,useEffect,useRef,useCallback,useMemo,useContext}=React;
+const EditModeCtx=React.createContext(false);
+
+function coerceValue(val, def){
+  if(val===null||val===undefined)return def;
+  if(Array.isArray(def)){
+    if(Array.isArray(val))return val;
+    if(typeof val==="object"){
+      const keys=Object.keys(val);
+      if(keys.length>0&&keys.every(k=>/^\d+$/.test(k))){
+        return keys.sort((a,b)=>Number(a)-Number(b)).map(k=>val[k]);
+      }
+    }
+    return def;
+  }
+  if(def&&typeof def==="object"){
+    return (typeof val==="object"&&!Array.isArray(val))?val:def;
+  }
+  return val;
+}
+
+function cleanForFirebase(val){
+  if(val===undefined)return null;
+  try{return JSON.parse(JSON.stringify(val))}catch(e){return val}
+}
+
+const store={
+  get(k,d){try{const v=localStorage.getItem(k);if(v===null)return d;return coerceValue(JSON.parse(v),d)}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},
+  markDirty(k){
+    try{
+      const cur=JSON.parse(localStorage.getItem("pd.__dirty_keys")||"[]");
+      if(!cur.includes(k)){cur.push(k);localStorage.setItem("pd.__dirty_keys",JSON.stringify(cur));}
+    }catch(e){}
+  },
+  clearDirty(k){
+    try{
+      const cur=JSON.parse(localStorage.getItem("pd.__dirty_keys")||"[]").filter(x=>x!==k);
+      localStorage.setItem("pd.__dirty_keys",JSON.stringify(cur));
+    }catch(e){}
+  },
+  getDirty(){
+    try{return JSON.parse(localStorage.getItem("pd.__dirty_keys")||"[]")}catch(e){return[]}
+  }
+};
+
+const toDbPath = k => "al_qudwah_dashboard/" + String(k).replace(/[.$/#[\]]/g, "_");
+
+function pushKeyToFirebase(k, val){
+  if(!rtdb) return Promise.resolve();
+  const safeNext = cleanForFirebase(val);
+  const isEmptyArr = Array.isArray(safeNext) && safeNext.length === 0;
+  const isEmptyObj = safeNext && typeof safeNext === "object" && !Array.isArray(safeNext) && Object.keys(safeNext).length === 0;
+  return rtdb.ref(toDbPath(k)).set({
+    _data: (isEmptyArr || isEmptyObj) ? null : safeNext,
+    _empty: isEmptyArr ? "array" : isEmptyObj ? "object" : null,
+    _updatedAt: Date.now()
+  }).then(() => {
+    store.clearDirty(k);
+  });
+}
+
+function flushDirtyKeysToFirebase(){
+  if(!rtdb || navigator.onLine === false) return;
+  const dirty = store.getDirty();
+  dirty.forEach(k => {
+    try {
+      const raw = localStorage.getItem(k);
+      if(raw !== null){
+        pushKeyToFirebase(k, JSON.parse(raw)).catch(()=>{});
+      } else {
+        store.clearDirty(k);
+      }
+    } catch(e){}
+  });
+}
+
+window.addEventListener("online", flushDirtyKeysToFirebase);
+
+function useStored(k, d){
+  const [state, setState] = useState(() => store.get(k, d));
+  const stateRef = useRef(state);
+  stateRef.current = state;
+
+  useEffect(() => {
+    if (!rtdb) return;
+    const dbRef = rtdb.ref(toDbPath(k));
+    const handleSnapshot = (snapshot) => {
+      if (store.getDirty().includes(k)) {
+        pushKeyToFirebase(k, store.get(k, d)).catch(()=>{});
+        return;
+      }
+      if (snapshot.exists()) {
+        const raw = snapshot.val();
+        let nextVal;
+        if (raw && typeof raw === "object" && ("_data" in raw || "_empty" in raw)) {
+          nextVal = raw._empty === "array" ? [] : raw._empty === "object" ? {} : raw._data;
+        } else {
+          nextVal = raw;
+        }
+        if (nextVal !== undefined) {
+          const coerced = coerceValue(nextVal, d);
+          stateRef.current = coerced;
+          setState(coerced);
+          store.set(k, coerced);
+        }
+      } else {
+        const initial = cleanForFirebase(store.get(k, d));
+        pushKeyToFirebase(k, initial).catch(() => {});
+      }
+    };
+    dbRef.on("value", handleSnapshot, (err) => {
+      console.warn("Firebase read error for " + k + ":", err);
+    });
+    return () => dbRef.off("value", handleSnapshot);
+  }, [k]);
+
+  const setStoredValue = useCallback((updater) => {
+    setState((prev) => {
+      const rawNext = typeof updater === "function" ? updater(prev) : updater;
+      const next = coerceValue(rawNext, d);
+      stateRef.current = next;
+      store.set(k, next);
+      if (rtdb) {
+        if (navigator.onLine === false) {
+          store.markDirty(k);
+        } else {
+          pushKeyToFirebase(k, next).catch(() => {
+            store.markDirty(k);
+          });
+        }
+      }
+      return next;
+    });
+  }, [k]);
+
+  return [state, setStoredValue];
+}
+
+const pad=n=>String(n).padStart(2,"0");
+const dkey=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const dayDiff=(a,b)=>Math.round((new Date(a+"T00:00:00")-new Date(b+"T00:00:00"))/864e5);
+const isMobileSheet=()=>!!(window.matchMedia&&window.matchMedia("(max-width: 768px), (pointer: coarse)").matches);
+
+let globalTagClickHandler = null;
+
+function Hint({tr,note,children}){
+  const[pos,setPos]=useState(null),ref=useRef(null);
+  const open=e=>{
+    if(e&&e.type==="click")e.stopPropagation();
+    if(isMobileSheet()){setPos({sheet:true});return}
+    const r=ref.current.getBoundingClientRect();
+    const w=Math.min(260,window.innerWidth-16);
+    const x=Math.max(8,Math.min(r.left+r.width/2-w/2,window.innerWidth-w-8));
+    const below=r.bottom+130<window.innerHeight;
+    setPos({x,w,y:below?r.bottom+8:null,b:below?null:window.innerHeight-r.top+8});
+  };
+  const close=()=>setPos(null);
+  useEffect(()=>{
+    if(!pos)return;
+    const onDoc=e=>{if(ref.current&&!ref.current.contains(e.target))close()};
+    window.addEventListener("scroll",close,true);
+    document.addEventListener("pointerdown",onDoc);
+    return()=>{
+      window.removeEventListener("scroll",close,true);
+      document.removeEventListener("pointerdown",onDoc);
+    };
+  },[pos]);
+  return h("span",{ref,className:"hint",tabIndex:0,role:"button",onMouseEnter:open,onMouseLeave:close,onFocus:open,onBlur:close,onClick:open},
+    children,
+    pos&&h("span",{className:"tip",role:"tooltip",style:pos.sheet?undefined:{left:pos.x,width:pos.w,top:pos.y!=null?pos.y:undefined,bottom:pos.b!=null?pos.b:undefined}},
+      h("b",null,tr),note
+    )
+  );
+}
+
+function parseInlineTokens(str, keyPrefix="t"){
+  if(!str)return[];
+  const out=[];
+  const tokenRe=/\{\{(.+?)\|(.+?)(?:\|(.+?))?\}\}|\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*|(?:^|\s)(#[A-Za-z0-9_\u0400-\u04FF-]+)/g;
+  let last=0,m,idx=0;
+  while((m=tokenRe.exec(str))){
+    let matchStart=m.index;
+    let rawMatch=m[0];
+    if(m[8] && rawMatch[0]!== "#"){
+      matchStart+=rawMatch.length-m[8].length;
+    }
+    if(matchStart>last){
+      out.push(str.slice(last,matchStart));
+    }
+    const k=keyPrefix+"-"+(idx++);
+    if(m[1]!==undefined){
+      out.push(h(Hint,{key:k,tr:m[2],note:m[3]||""},parseInlineTokens(m[1],k+"-h")));
+    }else if(m[4]!==undefined){
+      out.push(h("a",{key:k,className:"md-link",href:m[5],target:"_blank",rel:"noopener noreferrer",onClick:e=>e.stopPropagation()},parseInlineTokens(m[4],k+"-a")));
+    }else if(m[6]!==undefined){
+      out.push(h("strong",{key:k},parseInlineTokens(m[6],k+"-b")));
+    }else if(m[7]!==undefined){
+      out.push(h("em",{key:k},parseInlineTokens(m[7],k+"-i")));
+    }else if(m[8]!==undefined){
+      const tagClean=m[8].slice(1).toLowerCase();
+      out.push(h("button",{
+        key:k,
+        type:"button",
+        className:"inline-tag",
+        title:"Filter by #"+tagClean,
+        onClick:e=>{
+          e.stopPropagation();
+          if(globalTagClickHandler)globalTagClickHandler(tagClean);
+        }
+      },m[8]));
+    }
+    last=tokenRe.lastIndex;
+  }
+  if(last<str.length)out.push(str.slice(last));
+  return out;
+}
+
+function rich(s){
+  const str=String(s==null?"":s);
+  if(!str)return null;
+  if(!str.includes("\n") && !str.trimStart().startsWith(">")){
+    return parseInlineTokens(str,"r");
+  }
+  const lines=str.split("\n");
+  return lines.map((line,i)=>{
+    const trimmed=line.trimStart();
+    if(trimmed.startsWith(">")){
+      const quoteBody=trimmed.replace(/^>\s?/,"");
+      return h("blockquote",{key:"bq-"+i,className:"md-quote"},parseInlineTokens(quoteBody,"bq-"+i));
+    }
+    return h(React.Fragment,{key:"ln-"+i},
+      i>0&&!lines[i-1].trimStart().startsWith(">")?h("br"):null,
+      parseInlineTokens(line,"ln-"+i)
+    );
+  });
+}
+
+const TL=[
+  ["Now","Study {{Business Administration|бизнес-администрирование|Специальность: управление бизнесом.}} at NOVA"],
+  ["In 2 years","Launch my first premium retail business"],
+  ["In 2\u20133 years","{{Transfer|перевестись|Перейти из колледжа в университет.}} to a top-tier university"],
+  ["In 15\u201320 years","Open an Islamic bank to {{reform|реформировать|Улучшить систему, изменив её основы.}} the global Islamic financial system"]
+];
+
+const LT={
+  intro:"Build a premium chain of classic menswear boutiques for the Islamic world.",
+  p:[
+    ["Halal fabrics","100% {{halal|халяль|Разрешено в исламе.}} compliance. No silk. Only natural fabrics such as {{worsted wool|камвольная шерсть|Гладкая плотная шерстяная ткань для костюмов.}} and linen."],
+    ["Flawless construction","{{Sartorial|портновский|Относящийся к искусству пошива одежды.}} quality: {{half-canvas|полуклеевая конструкция|Внутренний каркас пиджака в груди и на лацканах.}} jackets, high {{armholes|проймы|Отверстия для рук. Высокие проймы дают больше свободы.}} for movement, and hidden side {{adjusters|боковые регуляторы|Застёжки на поясе брюк вместо ремня.}}."],
+    ["Made for prayer","Clothing that physically supports {{Salah|намаз|Ежедневная молитва мусульман.}}, so you can bow and {{prostrate|совершать земной поклон|Опускаться лбом к полу.}} with ease."]
+  ],
+  q:"\u201cA Muslim\u2019s feet and appearance should be so {{immaculate|безупречный|Абсолютно чистый и аккуратный.}} that others in the mosque are inspired during {{Sujud|суджуд|Земной поклон в молитве: лоб касается пола.}}.\u201d",
+  m:"Ultimate goal: {{revive|возродить|Вернуть к жизни.}} the {{sanctity|святость|Особая ценность и уважение.}} of {{Jumu\u2019ah|Джума|Пятничная коллективная молитва.}} and promote elegant dress according to the {{Sunnah|Сунна|Пример и учение Пророка Мухаммада \ufdfa.}}"
+};
+
+const CURRICULUM = [
+  { c: "Finance (Invested)", items: ["The \"Anti-Investor\" Persona", "The 12-Month Investing Plan", "Inflation as a Certain Loss", "Votes with Your Dollars", "The Emotional Checklist", "The Circle of Competence", "The Three Circles Exercise", "The Moat", "The Brand Moat", "The Toll Moat", "The Secrets Moat", "The Price Moat", "Management Quality", "The Baggage Check", "Intrinsic Value (The \"Worth\")", "The Sticker Price", "Margin of Safety (MOS)", "The Big Five Numbers", "Return on Invested Capital (ROIC)", "Free Cash Flow (FCF)", "Payback Time", "Mr. Market", "Compounding Interest", "Wishlist Creation", "Charlie Munger's Four Filters"] },
+  { c: "SuitSupply", items: ["Vertical Integration", "Radically Personal Service", "Half-Canvas Construction", "The Founder's Story", "Basic Tailoring & Alterations"] },
+  { c: "Marketing & Content", items: ["SMM Strategy & Funnels", "Video Editing Pacing", "Camera Operation & Lighting Basics", "Hook Retention", "Audience Building"] },
+  { c: "Piano Tutoring", items: ["Structuring a First Lesson", "Sight-Reading vs Ear Training", "Keeping Students Motivated", "Pedagogical Patience", "Managing Parent Expectations"] }
+];
+
+const SG=[
+  {id:"job",t:"Get {{hired|принят на работу}} at SuitSupply to learn the premium menswear industry from the inside.",label:"Oct 19, 2026",due:"2026-10-19"},
+  {id:"script",t:"Write the first {{draft|черновик|Первая, неокончательная версия текста.}} of my video script on classic menswear.",label:"Oct 11\u201312, 2026",due:"2026-10-12"},
+  {id:"transfer",t:"Develop a concrete academic {{transfer plan|план перевода|Шаги для перехода из колледжа в 4-летний университет.}} to a 4-year university."},
+  {id:"phones",t:"Purchase high-quality Apple headphones.",label:"Nov 2, 2026",due:"2026-11-02"}
+];
+
+const DT=[
+  {id:"pushups",t:"Do push-ups right after you wake up. Even one counts."},
+  {id:"brief",t:"Check the Morning Brief below and pass its quiz.",quiz:true},
+  {id:"anki",t:"Review your {{Anki flashcards|карточки Anki|Приложение для повторения слов через интервалы.}}."},
+  {id:"quran",t:"Read one page of the Quran."}
+];
+
+const REG=[
+  {id:"ayub",t:"Report to Ayub about the poem or verse you {{memorized|выучил наизусть|Запомнил так, чтобы повторить без текста.}} this week.",f:"weekly",d:0,bt:"Sunday report",ico:"!",al:"Reminder: Today is Sunday. Report the poem or verse you memorized this week to Ayub."},
+  {id:"invest",t:"Invest $75 into a {{Halal|халяль|Разрешено в исламе.}} S&P 500 alternative (e.g., SPUS or HLAL).",f:"twice",d:0,bt:"Investment day",ico:"$",al:"Reminder: Today is investment day. Execute your bi-monthly $75 transfer to your brokerage."}
+];
+
+const B=[
+  {
+    c: "Finance", t: "The Mr. Market Allegory",
+    b: [
+      "Benjamin Graham introduced one of the most powerful concepts in investing: the allegory of {{Mr. Market|Мистер Рынок|Аллегория рынка как эмоционального партнёра.}}. Imagine you own a business with a partner named Mr. Market. Every day, he comes to you and offers a price at which he will either buy your share or sell you his.",
+      "The catch is that Mr. Market is emotionally unstable. Some days he is wildly {{optimistic|оптимистичный}} and offers a very high price. Other days he is depressed and offers a ridiculously low price. You are free to ignore him, buy from him, or sell to him.",
+      "As an investor, your job is not to be influenced by his moods, but to take advantage of them. You buy when he is panicking (offering low prices) and sell when he is euphoric (offering high prices). The market is there to serve you, not to instruct you."
+    ],
+    q: [
+      { q: "What is the primary characteristic of Mr. Market in Benjamin Graham's allegory?", opts: ["He is highly rational and calculating", "He is emotionally unstable", "He always offers a fair intrinsic value", "He knows the future of the company"], ans: 1, exp: "Mr. Market's defining trait is his emotional volatility—swinging from manic optimism to deep depression, which creates mispriced opportunities." },
+      { q: "How should an intelligent investor interact with Mr. Market?", opts: ["Let his prices dictate the true value of the business", "Ignore him completely and never buy or sell", "Use his mood swings to buy low and sell high", "Try to predict his emotional state using charts"], ans: 2, exp: "You should take advantage of his irrationality by buying when he is overly pessimistic (low prices) and selling when he is overly optimistic (high prices)." }
+    ]
+  },
+  {
+    c: "Marketing", t: "The Mechanics of Hook Retention",
+    b: [
+      "In the world of short-form content, the first three seconds dictate the performance of the entire video. This period is governed by {{hook retention|удержание внимания|Способность удержать зрителя в первые секунды.}}, a metric that platforms like TikTok and Instagram heavily reward.",
+      "A strong hook is not just about yelling or using flashy text. It involves a combination of visual, auditory, and psychological cues. A \"pattern interrupt\" breaks the user's scrolling {{trance|транс|Состояние автоматического пролистывания ленты.}}, while an open loop creates an information gap that can only be closed by watching the video to the end.",
+      "Pacing also matters immediately after the hook. If the energy drops or the editing slows down too much at second four, the audience will swipe away. Consistently reviewing your retention graphs at the 3-second mark is the most reliable way to diagnose content failure."
+    ],
+    q: [
+      { q: "Which of the following best describes an 'open loop' in a hook?", opts: ["Using loud background music", "Asking a question or making a promise that is answered later", "A visual transition between two clips", "Putting all the information in the first 3 seconds"], ans: 1, exp: "An open loop introduces an incomplete idea or question that compels the viewer to stay until the end to get the resolution." },
+      { q: "What is the primary consequence of an energy drop immediately after the hook?", opts: ["The algorithm flags the video as spam", "Viewers will quickly lose interest and swipe away", "The video's comments will increase", "It builds anticipation for the climax"], ans: 1, exp: "If the pacing slows down or the energy drops right after the hook, viewers recognize the 'bait' and will abandon the video, killing retention." }
+    ]
+  },
+  {
+    c: "Piano Tutoring", t: "Structuring a First Lesson",
+    b: [
+      "The first piano lesson with a new student sets the tone for the entire pedagogical relationship. Many novice teachers make the mistake of overwhelming the student with theory, sheet music, and {{posture|осанка|Правильное положение тела за инструментом.}} rules immediately.",
+      "Instead, the primary goal of the first lesson is simple: ensure the student leaves feeling capable and inspired. Start with {{ear training|тренировка слуха}} or pattern recognition on the black keys, allowing them to make music instantly without the barrier of reading notes.",
+      "Managing parent expectations is also crucial during this phase. Clearly communicate that early progress is about building a connection to the instrument and developing a daily habit, not playing complex pieces right away. Pedagogical patience pays off in long-term student retention."
+    ],
+    q: [
+      { q: "What is a common mistake novice teachers make in the first piano lesson?", opts: ["Letting the student play songs by ear", "Overwhelming the student with theory and rules immediately", "Talking to the parents too much", "Ending the lesson 5 minutes early"], ans: 1, exp: "Throwing too much theory and strict posture rules at a beginner can overwhelm them and kill their initial excitement." },
+      { q: "What should be the primary goal of the very first lesson?", opts: ["Memorizing the notes on the treble clef", "Learning to play a full classical sonata", "Making the student feel capable and inspired", "Testing their natural rhythm and pitch"], ans: 2, exp: "The priority is building confidence and a positive association with the instrument so the student is eager to return and practice." }
+    ]
+  },
+  {
+    c: "SuitSupply", t: "Half-Canvas Construction",
+    b: [
+      "One of the defining features of premium tailoring is the internal structure of a jacket. While fast-fashion suits rely on fused (glued) interlinings that feel stiff, SuitSupply predominantly uses {{half-canvas|полуклеевая конструкция|Внутренний каркас пиджака из конского волоса и хлопка.}} construction.",
+      "A half-canvas jacket features a stitched layer of horsehair and cotton across the chest and lapel. This allows the cloth to {{drape|драпироваться|Свободно и красиво спадать по фигуре.}} naturally and mold to the wearer's body over time. It creates a dynamic, breathable garment that looks elegant from the first wear.",
+      "For a Style Advisor, explaining this detail is crucial. It justifies the price point by highlighting craftsmanship. When a customer understands that their jacket has a \"skeleton\" that adapts to their shape, they aren't just buying clothes; they are investing in sartorial architecture."
+    ],
+    q: [
+      { q: "Why is a fused (glued) jacket generally considered inferior to a canvassed jacket?", opts: ["It is too heavy", "It feels stiff and doesn't mold to the body", "It uses animal products like horsehair", "It is much more expensive to produce"], ans: 1, exp: "Fused jackets use glue instead of a sewn canvas structure, making them stiff, less breathable, and unable to naturally drape or mold to the body over time." },
+      { q: "How does explaining half-canvas construction benefit the sales process?", opts: ["It confuses the customer into buying quickly", "It justifies the price point by highlighting craftsmanship", "It proves the jacket is 100% handmade", "It shortens the time needed for alterations"], ans: 1, exp: "Educating the customer about the hidden internal quality (the 'skeleton') provides concrete value, shifting the conversation from pure price to craftsmanship." }
+    ]
+  }
+];
+
+const LV={
+  d:"2026-10-12",
+  due:"2026-12-15",
+  m:[
+    {t:"{{LVMH|ЛВМХ|Крупнейшая в мире группа компаний в сфере люкса.}} & the {{Luxury|люкс|Товары высшего класса и высокой цены.}} Industry"},
+    {t:"Luxury & {{Society|общество|Люди и их отношения, культура.}}",u:"2026-10-20"},
+    {t:"{{Elective|факультатив|Дополнительный курс по выбору.}} 1",u:"2026-10-27"},
+    {t:"{{Elective|факультатив|Дополнительный курс по выбору.}} 2",u:"2026-11-03"},
+    {t:"Final {{Assessment|итоговая оценка|Проверка знаний в конце курса.}}",u:"2026-11-10"}
+  ]
+};
+
+const L=[
+  {id:"fin",n:"Finance",why:"The foundation of your {{major|специальность|Основной предмет обучения.}}.",m:["Understand the {{time value of money|временная стоимость денег|Деньги сегодня ценнее, чем завтра.}}","Learn the three {{financial statements|финансовая отчётность}}","Read one company\u2019s annual report"]},
+  {id:"eco",n:"Microeconomics & Macroeconomics",why:"Micro explains the choices of people and firms. Macro explains whole economies.",m:["Master supply, demand, and {{elasticity|эластичность|Насколько спрос реагирует на цену.}}","Explain GDP, inflation, and interest rates","Describe one central bank decision in your own words"]},
+  {id:"biz",n:"Business Creation & Scaling",why:"Learn how great companies start, grow, and last.",m:["{{Reverse-engineer|разобрать по частям|Изучить готовый бизнес, чтобы понять, как он устроен.}} 3 successful brands","Write a one-page plan for your first boutique","Study how premium brands set prices and margins"]},
+  {id:"theo",n:"Islamic Theology",why:"The Quran, Hadith, and the works of scholars are your moral compass.",m:["Study {{tafsir|тафсир|Толкование Корана.}} of a short surah","Learn the basics of {{Hadith|хадисы|Предания о словах и делах Пророка \ufdfa.}} classification","Read one classical scholarly work"]},
+  {id:"ifin",n:"Islamic Finance & Ethical Banking",why:"This is the base of your 15\u201320 year mission.",m:["Learn what {{riba|риба}}, {{gharar|гарар|Чрезмерная неопределённость в договоре.}}, and {{maysir|майсир|Азартная игра.}} mean","Compare murabaha, ijara, and {{mudarabah|мудараба|Партнёрство: один вкладывает деньги, другой \u2014 труд.}}","Study how one Islamic bank is organized"]}
+];
+
+const Chk=(on,fn,label,dis)=>h("input",{type:"checkbox",className:"chk",checked:on,onChange:fn,disabled:!!dis,title:dis?"Pass the Morning Brief quiz to unlock this task":undefined,"aria-label":label});
+const Bar=(a,b)=>h("div",null,h("div",{className:"bar"},h("i",{style:{width:(b?a/b*100:0)+"%"}})),h("span",{className:"mute"},a+" of "+b+" done"));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const WD=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],NW=["","one","two","three","four","five","six","seven","eight","nine","ten"];
+const plainOf=x=>String(x==null?"":x)
+  .replace(/\{\{(.+?)\|.*?\}\}/g,"$1")
+  .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,"$1")
+  .replace(/\*\*([^*]+)\*\*/g,"$1")
+  .replace(/\*([^*]+)\*/g,"$1")
+  .replace(/^>\s?/gm,"");
+
+function extractTags(item, extraStrings=[]){
+  const set=new Set();
+  if(item && Array.isArray(item.tags)){
+    item.tags.forEach(t=>{const c=String(t||"").trim().replace(/^#+/,"").toLowerCase();if(c)set.add(c)});
+  }
+  const texts=[
+    item&&(item.t||item.text||""),
+    item&&(item.note||""),
+    ...extraStrings
+  ];
+  const re=/(?:^|\s)#([A-Za-z0-9_\u0400-\u04FF-]+)/g;
+  texts.forEach(txt=>{
+    if(!txt)return;
+    let m;re.lastIndex=0;
+    while((m=re.exec(String(txt)))){
+      set.add(m[1].toLowerCase());
+    }
+  });
+  return Array.from(set);
+}
+
+function normalizeSubtasks(list){
+  if(!Array.isArray(list))return[];
+  return list.filter(x=>x&&typeof x==="object").map((x,i)=>({
+    ...x,
+    id:x.id?String(x.id):"sub-"+i+"-"+String(x.t||x.text||"").length,
+    t:typeof x.t==="string"?x.t:String(x.text||""),
+    done:!!x.done,
+    subtasks:normalizeSubtasks(x.subtasks)
+  }));
+}
+function countSubtree(subtasks){
+  const list=normalizeSubtasks(subtasks);
+  let total=0,done=0;
+  for(const s of list){
+    total+=1;
+    if(s.done)done+=1;
+    const child=countSubtree(s.subtasks);
+    total+=child.total;
+    done+=child.done;
+  }
+  return{total,done,directTotal:list.length,directDone:list.filter(s=>s.done).length};
+}
+const fix=(a,def)=>Array.isArray(a)?a.filter(x=>x&&typeof x==="object").map((x,i)=>({
+  ...x,
+  t:typeof x.t==="string"?x.t:String(x.text||""),
+  id:x.id?x.id:"x"+i+"-"+String(x.t||x.text||"").length,
+  subtasks:normalizeSubtasks(x.subtasks)
+})):def;
+const LEG=["pushups","brief","anki","quran"];
+const dayMap=raw=>{
+  if(Array.isArray(raw)){
+    const a=raw.length===6?[raw[0],raw[1],raw[3],raw[5]]:raw,o={};
+    LEG.forEach((k,i)=>{o[k]=!!a[i]});
+    return o;
+  }
+  return raw&&typeof raw==="object"?raw:{};
+};
+function streakOf(days,ids,today){
+  const sDays=days&&typeof days==="object"?days:{};
+  const sIds=Array.isArray(ids)?ids:[];
+  const d=new Date(),ok=k=>{const m=dayMap(sDays[k]),list=k===today?sIds:(Array.isArray(sDays[k])?LEG:(m._t||sIds));return Array.isArray(list)&&list.length>0&&list.every(i=>m[i])};
+  let s=0;
+  if(!ok(dkey(d)))d.setDate(d.getDate()-1);
+  for(let i=0;i<400&&ok(dkey(d));i++){s++;d.setDate(d.getDate()-1)}
+  return s;
+}
+const SH=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],ORD=[1,2,3,4,5,6,0];
+const daysOf=t=>Array.isArray(t.days)&&t.days.length?t.days.map(Number):[+t.d||0];
+const period=(t,now)=>{
+  const y=now.getFullYear(),m=now.getMonth(),n=now.getDate();
+  let st,nx;
+  if(t.f==="weekly"){
+    const ds=daysOf(t);
+    for(let b=0;b<7&&!st;b++){const x=new Date(y,m,n-b);if(ds.includes(x.getDay()))st=x}
+    st=st||new Date(y,m,n);
+    for(let f=1;f<=7&&!nx;f++){const x=new Date(st.getFullYear(),st.getMonth(),st.getDate()+f);if(ds.includes(x.getDay()))nx=x}
+    nx=nx||new Date(y,m,n+7);
+  }else if(t.f==="twice"){
+    st=new Date(y,m,n>=15?15:1);
+    nx=n<15?new Date(y,m,15):new Date(y,m+1,1);
+  }else{
+    const dd=Math.min(Math.max(+t.d||1,1),28);
+    st=new Date(y,n>=dd?m:m-1,dd);
+    nx=new Date(y,n>=dd?m+1:m,dd);
+  }
+  return{st,nx,key:dkey(st)};
+};
+const fmtD=d=>d.toLocaleDateString("en-US",{month:"short",day:"numeric"});
+const fmtISO=iso=>new Date(iso+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+const fmtLongISO=iso=>new Date(iso+"T00:00:00").toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"});
+const RK={monthly:0,twice:1,weekly:2};
+const freqLabel=t=>{
+  if(t.f==="weekly"){
+    const ds=daysOf(t);
+    return ds.length===7?"Every day":ds.length===1?"Every "+WD[ds[0]]:"Every "+ORD.filter(x=>ds.includes(x)).map(x=>SH[x]).join(", ");
+  }
+  return t.f==="twice"?"1st and 15th of every month":"Monthly on day "+(+t.d||1);
+};
+
+function Quiz({items,solved,onSolved}){
+  const[answers,setAnswers]=useState(()=>items.map(()=>null));
+  const[submitted,setSubmitted]=useState(solved);
+  
+  useEffect(()=>{
+    if(solved&&!submitted)setSubmitted(true);
+  },[solved,submitted]);
+
+  const submit=()=>{
+    setSubmitted(true);
+    if(!solved)onSolved();
+  };
+
+  const allAnswered=answers.every(a=>a!==null);
+
+  return h("div",{className:"quiz"},
+    h("div",{className:"eyebrow"},"Comprehension Check"),
+    items.map((q,i)=>h("div",{key:i,style:{marginBottom:"24px"}},
+      h("div",{className:"mc-q"},(i+1)+". "+q.q),
+      h("div",{className:"mc-opts"},
+        q.opts.map((opt,j)=>{
+          const isSelected=answers[i]===j;
+          const isCorrect=j===q.ans;
+          const showFeedback=submitted;
+          let bg="", border="";
+          if(showFeedback){
+            if(isCorrect){bg="rgba(47,125,91,.15)"; border="var(--ok)";}
+            else if(isSelected&&!isCorrect){bg="rgba(179,57,47,.08)"; border="var(--bad)";}
+          }
+          return h("button",{
+            key:j,
+            className:"mc-opt",
+            "aria-pressed":isSelected,
+            disabled:submitted,
+            style:showFeedback&&(isCorrect||isSelected)?{backgroundColor:bg,borderColor:border}:{},
+            onClick:()=>{
+              if(!submitted){
+                const next=[...answers];
+                next[i]=j;
+                setAnswers(next);
+              }
+            }
+          },opt);
+        })
+      ),
+      submitted&&h("div",{className:"mc-exp "+(answers[i]===q.ans?"ok":"bad")},
+        h("b",null,answers[i]===q.ans?"\u2713 Correct":"\u2717 Incorrect"),
+        q.exp
+      )
+    )),
+    h("button",{className:"btn",disabled:submitted||!allAnswered,onClick:submit},
+      submitted?"Task Completed \u2713":"Submit Answers"
+    )
+  );
+}
+
+const sortSprint=a=>a.slice().sort((x,y)=>(+!!x.done)-(+!!y.done));
+
+const GL=(()=>{
+  const g={},re=/\{\{(.+?)\|(.+?)(?:\|(.+?))?\}\}/g;
+  B.forEach(x=>x.b.forEach(p=>{let m;re.lastIndex=0;while((m=re.exec(p)))g[m[1].toLowerCase()]=m[2]}));
+  return g;
+})();
+const VOC=(()=>{
+  const g={};
+  B.forEach(x=>(x.v||"").split(";").forEach(q=>{const i=q.indexOf("=");if(i>0)g[q.slice(0,i).trim().toLowerCase()]=q.slice(i+1).trim()}));
+  return g;
+})();
+const DICT={...VOC,...GL};
+
+function lookup(word){
+  const w=word.toLowerCase().replace(/\u2019/g,"'").trim();
+  const c=[w,w.replace(/'s$/,""),w.replace(/ies$/,"y"),w.replace(/(es|s)$/,""),w.replace(/ied$/,"y"),w.replace(/(ed|d)$/,""),w.replace(/ing$/,""),w.replace(/ing$/,"e"),w.replace(/ly$/,""),w.replace(/er$/,"")];
+  for(const k of c)if(k&&DICT[k])return DICT[k];
+  return null;
+}
+
+const API_DOWN={};
+const APIS=[
+  ["google",w=>"https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ru&dt=t&q="+encodeURIComponent(w),d=>Array.isArray(d)&&Array.isArray(d[0])?d[0].map(x=>x&&x[0]).filter(Boolean).join(""):null],
+  ["lingva",w=>"https://lingva.pussthecat.org/api/v1/en/ru/"+encodeURIComponent(w),d=>d&&d.translation]
+];
+
+async function viaDict(word){
+  try{
+    const r=await fetch("https://api.dictionaryapi.dev/api/v2/entries/en/"+encodeURIComponent(word.toLowerCase()));
+    if(!r.ok)return null;
+    const data=await r.json();
+    if(data&&data[0]&&data[0].meanings&&data[0].meanings[0].definitions){
+      return "ENG: "+data[0].meanings[0].definitions[0].definition;
+    }
+  }catch(e){}
+  return null;
+}
+
+async function viaApi(a,word){
+  if(API_DOWN[a[0]]&&Date.now()-API_DOWN[a[0]]<60000)return null;
+  try{
+    const c=new AbortController(),t=setTimeout(()=>c.abort(),4000);
+    const r=await fetch(a[1](word.toLowerCase()),{signal:c.signal});
+    clearTimeout(t);
+    if(!r.ok)throw new Error("http");
+    const x=a[2](await r.json());
+    if(typeof x==="string"&&x.trim()&&x.trim().toLowerCase()!==word.toLowerCase()&&!/MYMEMORY WARNING|INVALID|QUERY LENGTH/i.test(x)){
+      return x.trim();
+    }
+  }catch(e){
+    API_DOWN[a[0]]=Date.now();
+  }
+  return null;
+}
+
+async function translate(word,cache){
+  const key=word.toLowerCase().replace(/\u2019/g,"'").trim();
+  const off=lookup(word);
+  if(off)return{ru:off};
+  if(cache[key])return{ru:cache[key]};
+  
+  for(const a of APIS){
+    const x=await viaApi(a,word);
+    if(x){
+      cache[key]=x.slice(0,90);
+      return{ru:cache[key]};
+    }
+  }
+  
+  const dict=await viaDict(word);
+  if(dict){
+    cache[key]=dict.slice(0,140);
+    return{ru:cache[key]};
+  }
+
+  const parts=key.split(/\s+/).map(lookup).filter(Boolean);
+  if(parts.length)return{ru:parts.join(" ")};
+  return{err:"none"};
+}
+
+const ERR={none:"Definition unavailable offline. Tap Retry or check connection."};
+const WCH=/[A-Za-z0-9'\u2019-]/,ALN=/[A-Za-z0-9]/;
+
+function wordSpan(P,s,e){
+  while(s<e&&!ALN.test(P[s]))s++;
+  while(e>s&&!ALN.test(P[e-1]))e--;
+  while(s>0&&WCH.test(P[s-1]))s--;
+  while(e<P.length&&WCH.test(P[e]))e++;
+  while(s<e&&!ALN.test(P[s]))s++;
+  while(e>s&&!ALN.test(P[e-1]))e--;
+  return[s,e];
+}
+
+function sentenceOf(P,s,e){
+  const re=/[^.!?]+[.!?]*/g;
+  let m;
+  while((m=re.exec(P))){
+    const a=m.index,b=a+m[0].length;
+    if(s>=a&&s<b){
+      const lead=m[0].length-m[0].trimStart().length,t=m[0].trim(),i=Math.max(0,s-a-lead),j=Math.min(t.length,e-a-lead);
+      if(j<=i)break;
+      return t.slice(0,i)+t.slice(i,j).toUpperCase()+t.slice(j);
+    }
+  }
+  const t=P.trim();
+  return t?t.slice(0,s)+t.slice(s,e).toUpperCase()+t.slice(e):null;
+}
+
+function resolveBoundary(p,container,offset){
+  const w=document.createTreeWalker(p,NodeFilter.SHOW_TEXT);
+  let len=0,n;
+  if(container.nodeType===3){
+    while((n=w.nextNode())){
+      if(n.parentElement&&n.parentElement.closest(".tip"))continue;
+      if(n===container)return len+offset;
+      len+=n.data.length;
+    }
+    return -1;
+  }
+  const target=container.childNodes[offset]||null;
+  while((n=w.nextNode())){
+    if(n.parentElement&&n.parentElement.closest(".tip"))continue;
+    if(target&&(n===target||target.contains(n)))return len;
+    len+=n.data.length;
+  }
+  return len;
+}
+
+function pickWord(box){
+  const sel=window.getSelection();
+  if(!sel||sel.rangeCount===0||sel.isCollapsed)return null;
+  const r=sel.getRangeAt(0),el=n=>n.nodeType===3?n.parentElement:n,sc=el(r.startContainer),p=sc&&sc.closest&&sc.closest("p");
+  if(!p||!box.contains(p)||!p.contains(r.endContainer))return null;
+  let P="",n;
+  const w=document.createTreeWalker(p,NodeFilter.SHOW_TEXT);
+  while((n=w.nextNode())){
+    if(n.parentElement&&n.parentElement.closest(".tip"))continue;
+    P+=n.data;
+  }
+  const s=resolveBoundary(p,r.startContainer,r.startOffset);
+  const e=resolveBoundary(p,r.endContainer,r.endOffset);
+  if(s<0||e<=s)return null;
+  const sp=wordSpan(P,s,e),word=P.slice(sp[0],sp[1]).trim();
+  if(!word||!/^[A-Za-z0-9][A-Za-z0-9'\u2019-]*(?:\s+[A-Za-z0-9][A-Za-z0-9'\u2019-]*){0,3}$/.test(word))return null;
+  const sentence=sentenceOf(P,sp[0],sp[1]);
+  if(!sentence)return null;
+  const rs=r.getClientRects(),rect=rs.length?rs[rs.length-1]:r.getBoundingClientRect();
+  return{word,sentence,rect};
+}
+
+function Reader({paras,onAdd}){
+  const box=useRef(null),down=useRef(false),req=useRef(0),cache=useRef({}),tm=useRef(null),cur=useRef(null),popRef=useRef(null),lastPop=useRef(0),sheetRef=useRef(false);
+  const[pop,setPop]=useState(null),[added,setAdded]=useState("");
+  const uniqueParas=Array.from(new Set(Array.isArray(paras)?paras:[]));
+
+  const put=v=>{
+    popRef.current=typeof v==="function"?v(popRef.current):v;
+    setPop(popRef.current);
+  };
+
+  const run=word=>{
+    const id=++req.current;
+    put(q=>q&&{...q,ru:null,err:null,s:"load"});
+    translate(word,cache.current).then(r=>{
+      if(req.current===id)put(q=>q&&{...q,ru:r.ru||null,err:r.err||null,s:r.ru?"ok":"err"});
+    }).catch(()=>{
+      if(req.current===id)put(q=>q&&{...q,ru:null,err:"none",s:"err"});
+    });
+  };
+
+  const check=()=>{
+    const pk=box.current&&pickWord(box.current);
+    if(!pk){
+      if(Date.now()-lastPop.current<1600)return;
+      sheetRef.current=false;
+      cur.current=null;
+      put(null);
+      return;
+    }
+    if(popRef.current&&cur.current&&cur.current.word===pk.word&&cur.current.sentence===pk.sentence)return;
+    const sheet=isMobileSheet();
+    sheetRef.current=sheet;
+    const rc=pk.rect,w=Math.min(280,window.innerWidth-24),x=Math.max(12,Math.min((rc.left+rc.right)/2-w/2,window.innerWidth-w-12)),below=rc.bottom+190<window.innerHeight;
+    cur.current={word:pk.word,sentence:pk.sentence};
+    setAdded("");
+    lastPop.current=Date.now();
+    put({word:pk.word,sentence:pk.sentence,sheet,x,w,y:below?rc.bottom+10:null,b:below?null:window.innerHeight-rc.top+10,ru:null,err:null,s:"load"});
+    run(pk.word);
+  };
+
+  useEffect(()=>{
+    const onSel=()=>{
+      clearTimeout(tm.current);
+      tm.current=setTimeout(()=>{if(!down.current)check()},260);
+    };
+    const onUp=()=>{
+      down.current=false;
+      clearTimeout(tm.current);
+      tm.current=setTimeout(check,80);
+    };
+    const onDown=e=>{
+      const t=e.target;
+      if(t.closest&&t.closest(".rpop")){
+        lastPop.current=Date.now();
+        return;
+      }
+      if(!(box.current&&box.current.contains(t)))put(null);
+    };
+    const onKey=e=>{if(e.key==="Escape")put(null)};
+    const onScroll=()=>{if(!sheetRef.current)put(null)};
+    document.addEventListener("selectionchange",onSel);
+    document.addEventListener("pointerup",onUp);
+    document.addEventListener("pointercancel",onUp);
+    document.addEventListener("pointerdown",onDown);
+    document.addEventListener("keydown",onKey);
+    window.addEventListener("scroll",onScroll,true);
+    return()=>{
+      clearTimeout(tm.current);
+      document.removeEventListener("selectionchange",onSel);
+      document.removeEventListener("pointerup",onUp);
+      document.removeEventListener("pointercancel",onUp);
+      document.removeEventListener("pointerdown",onDown);
+      document.removeEventListener("keydown",onKey);
+      window.removeEventListener("scroll",onScroll,true);
+    };
+  },[]);
+
+  return h(React.Fragment,null,
+    h("div",{ref:box,className:"paras",onPointerDown:e=>{if(e.pointerType==="mouse")down.current=true}},
+      uniqueParas.map((p,i)=>h("p",{key:"p-"+i},rich(p)))
+    ),
+    pop&&h("div",{
+      className:"rpop"+(pop.sheet?" sheet":""),
+      role:"dialog",
+      "aria-label":"Translation",
+      style:pop.sheet?undefined:{left:pop.x,width:pop.w,top:pop.y!=null?pop.y:undefined,bottom:pop.b!=null?pop.b:undefined},
+      onMouseDown:e=>e.preventDefault(),
+      onTouchStart:()=>{lastPop.current=Date.now()}
+    },
+      h("button",{className:"rclose","aria-label":"Close",onClick:()=>{cur.current=null;put(null)}},"\u00d7"),
+      h("div",{className:"rw"},pop.word),
+      h("div",{className:"rt"},pop.s==="load"?"Fetching...":pop.s==="ok"?pop.ru:(ERR[pop.err]||ERR.none)),
+      h("div",{className:"rbtns"},
+        pop.s==="err"&&h("button",{className:"rbtn ghost",onClick:()=>run(pop.word)},"Retry"),
+        h("button",{className:"rbtn",disabled:!!added,onClick:()=>{
+          const r=onAdd(pop.sentence);
+          setAdded(r);
+          setTimeout(()=>{
+            cur.current=null;
+            put(null);
+            const sl=window.getSelection();
+            if(sl)sl.removeAllRanges();
+          },850);
+        }},added==="dup"?"Already in your list":added?"Added \u2713":"Add to Anki")
+      )
+    )
+  );
+}
+
+function AnkiExport({items,onClear}){
+  const ta=useRef(null),[cp,setCp]=useState(""),txt=items.join("\n");
+  const copy=async()=>{
+    if(!items.length)return;
+    let ok=false;
+    try{await navigator.clipboard.writeText(txt);ok=true}catch(e){
+      try{const el=ta.current;el.focus();el.select();ok=document.execCommand("copy")}catch(e2){}
+    }
+    setCp(ok?"Copied \u2713":"Select the text and copy it by hand");
+    setTimeout(()=>setCp(""),2400);
+  };
+  return h("section",{className:"card"},
+    h("div",{className:"eyebrow"},"Vocabulary"),
+    h("h2",null,"Anki Export"),
+    h("p",{className:"mute",style:{marginTop:0}},rich("Highlight a word in the Morning Brief and press \u201cAdd to Anki\u201d. The {{sentence|предложение}} is saved here with your word in CAPITAL LETTERS.")),
+    h("textarea",{ref:ta,className:"exp",readOnly:true,rows:Math.min(12,Math.max(4,items.length*2+1)),value:txt,placeholder:"This allows the cloth to DRAPE naturally.","aria-label":"Anki sentences"}),
+    h("div",{className:"addrow",style:{marginBottom:0}},
+      h("button",{className:"btn",disabled:!items.length,onClick:copy},"Copy All"),
+      h("button",{className:"btn ghost",disabled:!items.length,onClick:onClear},"Clear list"),
+      h("span",{className:"mute",style:{margin:0}},cp||items.length+(items.length===1?" sentence":" sentences"))
+    )
+  );
+}
+
+const DF=[{k:"t",ph:"Add a daily task\u2026",label:"Task"}];
+const SF=[{k:"t",ph:"Add a sprint objective\u2026",label:"Sprint task"}];
+const GF=[{k:"t",ph:"New goal\u2026",label:"Goal"},{k:"label",ph:"e.g. Oct 19",label:"Label",max:40,adv:true},{k:"due",type:"date",label:"Due date",adv:true}];
+const TF=[
+  {k:"text",ph:"Add a task\u2026",label:"Task"},
+  {k:"tags",ph:"e.g. urgent, work, study",label:"Tags",adv:true},
+  {k:"date",type:"date",label:"Date",adv:true},
+  {k:"hi",type:"toggle",label:"Priority",adv:true}
+];
+const REMF=[
+  {k:"t",ph:"Add a grounding principle or reminder\u2026",label:"Reminder"},
+  {k:"note",ph:"Optional context, verse, or reflection\u2026",label:"Context / Note",adv:true},
+  {k:"tags",ph:"e.g. mindset, faith, crisis",label:"Tags",adv:true},
+  {k:"pin",type:"pin",label:"Pin",adv:true}
+];
+const RF=[
+  {k:"t",ph:"New recurring task\u2026",label:"Task"},
+  {k:"f",type:"select",label:"How often",adv:true,opts:[["weekly","Weekly, on chosen days"],["twice","Twice a month (1st & 15th)"],["monthly","Monthly"]]},
+  {k:"dw",type:"days",label:"Repeat on",adv:true,when:v=>v.f==="weekly"},
+  {k:"dd",type:"select",label:"Day of month",adv:true,when:v=>v.f==="monthly",opts:Array.from({length:28},(_,i)=>[String(i+1),"Day "+(i+1)])},
+  {k:"al",ph:"Optional reminder text",label:"Reminder text",max:200,adv:true}
+];
+const regInit=t=>t?{t:t.t,f:t.f,dw:daysOf(t),dd:String(t.f==="monthly"?(+t.d||1):1),al:t.al||""}:{t:"",f:"weekly",dw:[new Date().getDay()],dd:"1",al:""};
+const toReg=(v,old)=>{
+  const o={...(old||{id:uid()}),t:v.t.trim(),f:v.f,al:(v.al||"").trim()};
+  if(v.f==="weekly"){o.days=ORD.filter(x=>v.dw.includes(x));o.d=o.days[0]}
+  else{delete o.days;o.d=v.f==="monthly"?+v.dd:0}
+  return o;
+};
+const regValid=v=>v.f==="weekly"&&!(v.dw&&v.dw.length)?"Pick at least one day.":"";
+
+function ItemForm({fields,init,submit,onSubmit,onCancel,valid}){
+  const editMode=useContext(EditModeCtx);
+  const edit=!!onCancel,[v,setV]=useState(init),[adv,setAdv]=useState(false),[err,setErr]=useState("");
+  useEffect(()=>{if(!editMode&&!edit)setAdv(false)},[editMode,edit]);
+  const set=(k,x)=>setV(q=>({...q,[k]:x}));
+  const go=()=>{
+    if(!String(v[fields[0].k]||"").trim())return;
+    const m=valid?valid(v):"";
+    if(m){setErr(m);return}
+    setErr("");
+    onSubmit(v);
+    if(!edit){setV(init);setAdv(false)}
+  };
+  const key=e=>{if(e.key==="Enter")go();if(e.key==="Escape"&&edit)onCancel()};
+  const main=fields[0],hasMore=fields.some(f=>f.adv),more=fields.slice(1).filter(f=>f.adv&&(!f.when||f.when(v)));
+  const field=f=>{
+    if(f.type==="days")return h("div",{key:f.k,className:"fl wide"},h("span",null,f.label),h("div",{className:"chips"},ORD.map(d=>{const on=(v[f.k]||[]).includes(d);return h("button",{key:d,type:"button",className:"chip day"+(on?" on":""),"aria-pressed":on,onClick:()=>set(f.k,on?v[f.k].filter(x=>x!==d):[...(v[f.k]||[]),d])},SH[d])})));
+    if(f.type==="toggle")return h("div",{key:f.k,className:"fl"},h("span",null,f.label),h("button",{className:"chip"+(v[f.k]?" on":""),type:"button","aria-pressed":!!v[f.k],onClick:()=>set(f.k,!v[f.k])},"! High priority"));
+    if(f.type==="pin")return h("div",{key:f.k,className:"fl"},h("span",null,f.label),h("button",{className:"chip"+(v[f.k]?" on":""),type:"button","aria-pressed":!!v[f.k],onClick:()=>set(f.k,!v[f.k])},"Pin to top"));
+    const ctl=f.type==="select"?h("select",{className:"txt sel",value:v[f.k],onChange:e=>set(f.k,e.target.value)},f.opts.map(o=>h("option",{key:o[0],value:o[0]},o[1])))
+      :f.type==="date"?h("input",{className:"txt dt",type:"date",value:v[f.k]||"",onChange:e=>set(f.k,e.target.value)})
+      :h("input",{className:"txt",value:v[f.k]||"",placeholder:f.ph,maxLength:f.max||300,onChange:e=>set(f.k,e.target.value),onKeyDown:key});
+    return h("label",{key:f.k,className:"fl"},h("span",null,f.label),ctl);
+  };
+  return h("div",{className:"iform"},
+    h("div",{className:edit?"editrow":"addrow"},
+      h("input",{className:"txt big",value:v[main.k]||"",placeholder:main.ph,maxLength:main.max||300,"aria-label":main.label,autoFocus:edit,onChange:e=>set(main.k,e.target.value),onKeyDown:key}),
+      editMode&&!edit&&hasMore&&h("button",{className:"gear"+(adv?" on":""),type:"button","aria-label":"Options","aria-expanded":adv,title:"Options",onClick:()=>setAdv(!adv)},"\u22ef"),
+      h("button",{className:"btn"+(edit?" sm":""),onClick:go},submit),
+      edit&&h("button",{className:"btn sm ghost",onClick:onCancel},"Cancel")
+    ),
+    (edit||(editMode&&adv))&&more.length>0&&h("div",{className:"advrow"},more.map(field)),
+    err&&h("p",{className:"mute err"},err)
+  );
+}
+
+const REM_DEF=[
+  {id:"rem-1",t:"Discipline over mood: you do not need to feel inspired to execute the daily minimum.",note:"Consistency during low-energy days is what compounds over decades.",tags:["mindset","discipline"],pin:true},
+  {id:"rem-2",t:"Guard your prayer and integrity first; every worldly venture is secondary to your standing with Allah.",note:"Excellence (Ihsan) in worship anchors clarity in business and study.",tags:["faith","anchor"],pin:true},
+  {id:"rem-3",t:"In moments of noise or market panic, slow down and lengthen your time horizon.",note:"Short-term volatility is emotional; long-term value is structural.",tags:["crisis","finance"],pin:false}
+];
+
+const DEFAULT_TABS=[
+  {id:"goals",title:"Main",builtin:true,hidden:false},
+  {id:"daily",title:"Daily Tasks",builtin:true,hidden:false},
+  {id:"regular",title:"Regular",builtin:true,hidden:false},
+  {id:"tasks",title:"Tasks",builtin:true,hidden:false},
+  {id:"reminders",title:"Reminders",builtin:true,hidden:false},
+  {id:"curriculum",title:"Curriculum",builtin:true,hidden:false},
+  {id:"path",title:"Learning Path",builtin:true,hidden:false},
+  {id:"archive",title:"Archive",builtin:true,hidden:false}
+];
+
+const WIDGET_CATALOG=[
+  {type:"sprint",label:"Sprint (Time-Boxed Cycle)"},
+  {type:"minimum",label:"Daily Minimum List"},
+  {type:"today_tasks",label:"Today's Scheduled Tasks"},
+  {type:"morning_brief",label:"Morning Brief & Comprehension Quiz"},
+  {type:"anki_export",label:"Anki Vocabulary Export"},
+  {type:"recurring_alerts",label:"Due-Today Recurring Alerts"},
+  {type:"recurring",label:"Recurring Tasks Manager"},
+  {type:"insights",label:"Investment Insights (Editorial)"},
+  {type:"all_tasks",label:"Master Task Manager (All Tasks)"},
+  {type:"reminders",label:"Strong Reminders (Principles & Notes)"},
+  {type:"curriculum",label:"Curriculum (Master Concept Rotation)"},
+  {type:"lvmh_course",label:"Featured Course (Inside LVMH)"},
+  {type:"learning_tracks",label:"Learning Path Tracks"},
+  {type:"trajectory",label:"Trajectory Timeline"},
+  {type:"long_goal",label:"Long-Term Vision & Pillars"},
+  {type:"short_goals",label:"Short-Term Goals"},
+  {type:"archive",label:"Sprint Archive Ledger"},
+  {type:"custom_checklist",label:"Custom Block: Checklist / Tasks"},
+  {type:"custom_notes",label:"Custom Block: Notes / Principles"},
+  {type:"custom_topics",label:"Custom Block: Grouped Topics / Cards"}
+];
+
+const DEFAULT_LAYOUT={
+  goals:[{id:"w-sprint",type:"sprint"}],
+  daily:[
+    {id:"w-minimum",type:"minimum"},
+    {id:"w-today",type:"today_tasks"},
+    {id:"w-brief",type:"morning_brief"},
+    {id:"w-anki",type:"anki_export"}
+  ],
+  regular:[
+    {id:"w-reg-alerts",type:"recurring_alerts"},
+    {id:"w-recurring",type:"recurring"},
+    {id:"w-insights",type:"insights"}
+  ],
+  tasks:[{id:"w-all-tasks",type:"all_tasks"}],
+  reminders:[{id:"w-reminders",type:"reminders"}],
+  curriculum:[{id:"w-curriculum",type:"curriculum"}],
+  path:[
+    {id:"w-lvmh",type:"lvmh_course"},
+    {id:"w-tracks",type:"learning_tracks"},
+    {id:"w-trajectory",type:"trajectory"},
+    {id:"w-long-goal",type:"long_goal"},
+    {id:"w-short-goals",type:"short_goals"}
+  ],
+  archive:[{id:"w-archive",type:"archive"}]
+};
+
+function normalizeLayout(rawLayout, tabsConfig, customTabsData){
+  const base=(rawLayout&&typeof rawLayout==="object"&&!Array.isArray(rawLayout))?{...rawLayout}:{};
+  Object.keys(DEFAULT_LAYOUT).forEach(tabId=>{
+    if(!Array.isArray(base[tabId])){
+      base[tabId]=DEFAULT_LAYOUT[tabId].map(w=>({...w}));
+    }
+  });
+  (Array.isArray(tabsConfig)?tabsConfig:[]).forEach(tab=>{
+    if(!Array.isArray(base[tab.id])){
+      const legacySecs=customTabsData&&Array.isArray(customTabsData[tab.id])?customTabsData[tab.id]:null;
+      if(legacySecs&&legacySecs.length){
+        base[tab.id]=legacySecs.map((sec,idx)=>({
+          id:sec.id||("w-mig-"+tab.id+"-"+idx),
+          type:sec.type==="notes"?"custom_notes":sec.type==="topics"?"custom_topics":"custom_checklist",
+          legacyTabId:tab.id,
+          legacySecId:sec.id
+        }));
+      }else{
+        const tpl=tab.template==="notes"?"custom_notes":tab.template==="topics"?"custom_topics":"custom_checklist";
+        base[tab.id]=[{
+          id:"w-init-"+tab.id,
+          type:tpl,
+          eyebrow:tpl==="custom_notes"?"Principles & Notes":tpl==="custom_topics"?"Knowledge Base":"Custom List",
+          title:tab.title
+        }];
+      }
+    }
+  });
+  return base;
+}
+
+function normalizeTabs(raw){
+  if(!Array.isArray(raw)||!raw.length)return DEFAULT_TABS;
+  const list=raw.map(x=>{
+    if(Array.isArray(x))return{id:String(x[0]),title:String(x[1]),builtin:true,hidden:false};
+    if(x&&typeof x==="object"&&x.id)return{
+      id:String(x.id),
+      title:String(x.title||x.id),
+      builtin:!!x.builtin,
+      hidden:!!x.hidden,
+      template:x.template||"checklist"
+    };
+    return null;
+  }).filter(Boolean);
+  DEFAULT_TABS.forEach((def,idx)=>{
+    if(!list.some(t=>t.id===def.id)){
+      const insertAt=Math.min(idx,list.length);
+      list.splice(insertAt,0,{...def});
+    }
+  });
+  return list;
+}
+
+const parseTags=str=>String(str||"").split(",").map(s=>s.trim().replace(/^#+/,"")).filter(Boolean);
+
+function moveInList(fullList,visibleList,itemId,dir){
+  const vIdx=visibleList.findIndex(x=>x&&x.id===itemId);
+  const targetIdx=vIdx+dir;
+  if(vIdx<0||targetIdx<0||targetIdx>=visibleList.length)return fullList;
+  const aId=visibleList[vIdx].id,bId=visibleList[targetIdx].id;
+  const next=fullList.slice();
+  const iA=next.findIndex(x=>x&&x.id===aId),iB=next.findIndex(x=>x&&x.id===bId);
+  if(iA<0||iB<0)return fullList;
+  const tmp=next[iA];next[iA]=next[iB];next[iB]=tmp;
+  return next;
+}
+
+function moveIdx(arr,idx,dir){
+  const t=idx+dir;
+  if(!Array.isArray(arr)||idx<0||t<0||t>=arr.length)return arr;
+  const next=arr.slice();
+  const tmp=next[idx];next[idx]=next[t];next[t]=tmp;
+  return next;
+}
+
+const sortTaskManual=a=>a.slice().sort((x,y)=>((+!!y.hi)-(+!!x.hi))||((+!!x.done)-(+!!y.done)));
+const sortReminders=a=>a.slice().sort((x,y)=>(+!!y.pin)-(+!!x.pin));
+
+function Row({first,done,hi,locked,onToggle,onDelete,onMoveUp,onMoveDown,subtasks,onSubtasksChange,extraActions,info,form,children}){
+  const editMode=useContext(EditModeCtx);
+  const[open,setOpen]=useState(false),[cd,setCd]=useState(false),[openSub,setOpenSub]=useState(false),[addingSub,setAddingSub]=useState(false);
+  useEffect(()=>{
+    if(!editMode){setOpen(false);setAddingSub(false);}
+  },[editMode]);
+  useEffect(()=>{
+    if(!cd)return;
+    const t=setTimeout(()=>setCd(false),3000);
+    return()=>clearTimeout(t);
+  },[cd]);
+  const askDel=()=>{if(cd){onDelete();return}setCd(true)};
+  const canSub=typeof onSubtasksChange==="function";
+  const subList=canSub?normalizeSubtasks(subtasks):[];
+  const stats=canSub?countSubtree(subList):null;
+
+  const handleAddSub=v=>{
+    const next=[...subList,{id:uid(),t:v.t.trim(),done:false,subtasks:[]}];
+    onSubtasksChange(next);
+    setAddingSub(false);
+    setOpenSub(true);
+  };
+
+  return h("div",{className:"row"+(done?" done":"")+(hi?" hi":"")+(first?" first":"")},
+    Chk(!!done,onToggle,"Done",locked),
+    h("div",{className:"grow"},
+      h("div",{className:"tdrow"},
+        h("div",{className:"t"},hi&&h("b",{className:"bang"},"! "),children),
+        editMode&&h("div",{className:"acts"},
+          canSub&&h("button",{
+            type:"button",
+            className:"sub-add-btn"+(addingSub?" on":""),
+            "aria-label":"Add subtask",
+            "aria-expanded":addingSub,
+            title:"Add subtask",
+            onClick:()=>setAddingSub(!addingSub)
+          },"+"),
+          h("button",{className:"gear"+(open?" on":""),"aria-label":"Options","aria-expanded":open,title:"Options",onClick:()=>setOpen(!open)},"\u22ef")
+        )
+      ),
+      canSub&&subList.length>0&&h("div",{className:"subtask-bar"},
+        h("button",{type:"button",className:"chev",onClick:()=>setOpenSub(!openSub)},
+          openSub
+            ?"\u25B2 Hide subtasks ("+stats.directDone+"/"+stats.directTotal+(stats.total>stats.directTotal?" \u00b7 "+stats.done+"/"+stats.total+" total":"")+")"
+            :"\u25BC "+stats.directDone+"/"+stats.directTotal+" subtask"+(stats.directTotal===1?"":"s")+(stats.total>stats.directTotal?" ("+stats.done+"/"+stats.total+" total)":"")
+        )
+      ),
+      editMode&&canSub&&addingSub&&h("div",{className:"sub-inline-form"},
+        h(ItemForm,{
+          fields:[{k:"t",ph:"Add a subtask\u2026",label:"Subtask"}],
+          init:{t:""},
+          submit:"Add",
+          onCancel:()=>setAddingSub(false),
+          onSubmit:handleAddSub
+        })
+      ),
+      editMode&&open&&h("div",{className:"panel"},
+        info,
+        canSub&&stats.total>0&&h("div",{className:"date",style:{margin:"0 0 8px"}},stats.done+" of "+stats.total+" total subtasks done"),
+        form&&form(()=>setOpen(false)),
+        h("div",{className:"pfoot"},
+          h("div",{className:"pacts"},
+            canSub&&h("button",{type:"button",className:"lnk",onClick:()=>{setAddingSub(true);setOpen(false)}},"+ Add subtask"),
+            onMoveUp&&h("button",{type:"button",className:"lnk",onClick:onMoveUp},"\u2191 Move Up"),
+            onMoveDown&&h("button",{type:"button",className:"lnk",onClick:onMoveDown},"\u2193 Move Down"),
+            extraActions
+          ),
+          onDelete&&h("button",{type:"button",className:"lnk del",onClick:askDel},cd?"Sure? Tap again to delete":"Delete")
+        )
+      ),
+      canSub&&openSub&&subList.length>0&&h(RecursiveSubtaskList,{
+        subtasks:subList,
+        depth:1,
+        onChange:onSubtasksChange
+      })
+    )
+  );
+}
+
+function ReminderRow({item,first,onUpdate,onDelete,onMoveUp,onMoveDown}){
+  const editMode=useContext(EditModeCtx);
+  const[open,setOpen]=useState(false),[cd,setCd]=useState(false);
+  useEffect(()=>{if(!editMode)setOpen(false)},[editMode]);
+  useEffect(()=>{
+    if(!cd)return;
+    const t=setTimeout(()=>setCd(false),3000);
+    return()=>clearTimeout(t);
+  },[cd]);
+  const askDel=()=>{if(cd){onDelete();return}setCd(true)};
+  const tags=Array.isArray(item.tags)?item.tags:[];
+  return h("div",{className:"rem-row"+(item.pin?" pinned":"")+(first?" first":"")},
+    h("div",{className:"tdrow"},
+      h("div",{className:"grow rem-body"},
+        h("div",{className:"rem-text"},rich(item.t)),
+        item.note&&h("div",{className:"rem-note"},rich(item.note)),
+        (item.pin||tags.length>0)&&h("div",{className:"rem-meta"},
+          item.pin&&h("span",{className:"pin-badge"},"Pinned"),
+          tags.map(tag=>h("button",{key:tag,type:"button",className:"tag-badge",onClick:()=>globalTagClickHandler&&globalTagClickHandler(tag.toLowerCase())},"#"+tag))
+        )
+      ),
+      editMode&&h("button",{className:"gear"+(open?" on":""),"aria-label":"Options","aria-expanded":open,title:"Options",onClick:()=>setOpen(!open)},"\u22ef")
+    ),
+    editMode&&open&&h("div",{className:"panel"},
+      h(ItemForm,{
+        fields:REMF,
+        init:{t:item.t||"",note:item.note||"",tags:tags.join(", "),pin:!!item.pin},
+        submit:"Save",
+        onCancel:()=>setOpen(false),
+        onSubmit:v=>{
+          onUpdate({...item,t:v.t.trim(),note:(v.note||"").trim(),tags:parseTags(v.tags),pin:!!v.pin});
+          setOpen(false);
+        }
+      }),
+      h("div",{className:"pfoot"},
+        h("div",{className:"pacts"},
+          h("button",{type:"button",className:"lnk",onClick:()=>onUpdate({...item,pin:!item.pin})},item.pin?"Unpin":"Pin to top"),
+          onMoveUp&&h("button",{type:"button",className:"lnk",onClick:onMoveUp},"\u2191 Move Up"),
+          onMoveDown&&h("button",{type:"button",className:"lnk",onClick:onMoveDown},"\u2193 Move Down")
+        ),
+        h("button",{type:"button",className:"lnk del",onClick:askDel},cd?"Sure? Tap again to delete":"Delete")
+      )
+    )
+  );
+}
+
+function RecursiveSubtaskNode({sub,depth,onUpdate,onDelete,onMoveUp,onMoveDown}){
+  const editMode=useContext(EditModeCtx);
+  const[openMenu,setOpenMenu]=useState(false),[openSub,setOpenSub]=useState(false),[addingSub,setAddingSub]=useState(false),[cd,setCd]=useState(false);
+  useEffect(()=>{if(!editMode){setOpenMenu(false);setAddingSub(false);}},[editMode]);
+  useEffect(()=>{
+    if(!cd)return;
+    const t=setTimeout(()=>setCd(false),3000);
+    return()=>clearTimeout(t);
+  },[cd]);
+
+  const children=normalizeSubtasks(sub.subtasks);
+  const stats=countSubtree(children);
+
+  const handleAddChild=v=>{
+    const nextChildren=[...children,{id:uid(),t:v.t.trim(),done:false,subtasks:[]}];
+    onUpdate({...sub,subtasks:nextChildren});
+    setAddingSub(false);
+    setOpenSub(true);
+  };
+
+  return h("div",{className:"subtask-node"},
+    h("div",{className:"subtask-row"+(sub.done?" done":"")},
+      h("input",{
+        type:"checkbox",
+        className:"chk",
+        checked:!!sub.done,
+        "aria-label":"Subtask done",
+        onChange:()=>onUpdate({...sub,done:!sub.done})
+      }),
+      h("div",{className:"grow"},
+        h("div",{className:"tdrow"},
+          h("div",{className:"t",style:{fontSize:"14.5px",lineHeight:"1.45"}},rich(sub.t)),
+          editMode&&h("div",{className:"acts"},
+            h("button",{
+              type:"button",
+              className:"sub-add-btn"+(addingSub?" on":""),
+              style:{width:"24px",height:"24px",fontSize:"16px"},
+              "aria-label":"Add nested subtask",
+              "aria-expanded":addingSub,
+              title:"Add nested subtask",
+              onClick:()=>setAddingSub(!addingSub)
+            },"+"),
+            h("button",{
+              type:"button",
+              className:"gear"+(openMenu?" on":""),
+              style:{width:"26px",height:"26px",fontSize:"16px"},
+              "aria-label":"Subtask options",
+              "aria-expanded":openMenu,
+              title:"Subtask options",
+              onClick:()=>setOpenMenu(!openMenu)
+            },"\u22ef")
+          )
+        ),
+        children.length>0&&h("div",{className:"subtask-bar"},
+          h("button",{type:"button",className:"chev",onClick:()=>setOpenSub(!openSub)},
+            openSub
+              ?"\u25B2 Hide subtasks ("+stats.directDone+"/"+stats.directTotal+(stats.total>stats.directTotal?" \u00b7 "+stats.done+"/"+stats.total+" total":"")+")"
+              :"\u25BC "+stats.directDone+"/"+stats.directTotal+" subtask"+(stats.directTotal===1?"":"s")+(stats.total>stats.directTotal?" ("+stats.done+"/"+stats.total+" total)":"")
+          )
+        ),
+        editMode&&addingSub&&h("div",{className:"sub-inline-form"},
+          h(ItemForm,{
+            fields:[{k:"t",ph:"Add a nested subtask\u2026",label:"Subtask"}],
+            init:{t:""},
+            submit:"Add",
+            onCancel:()=>setAddingSub(false),
+            onSubmit:handleAddChild
+          })
+        ),
+        editMode&&openMenu&&h("div",{className:"panel",style:{marginTop:"6px",padding:"10px 12px"}},
+          h(ItemForm,{
+            fields:[{k:"t",ph:"Edit subtask\u2026",label:"Subtask"}],
+            init:{t:sub.t},
+            submit:"Save",
+            onCancel:()=>setOpenMenu(false),
+            onSubmit:v=>{onUpdate({...sub,t:v.t.trim()});setOpenMenu(false)}
+          }),
+          h("div",{className:"pfoot"},
+            h("div",{className:"pacts"},
+              h("button",{type:"button",className:"lnk",onClick:()=>{setAddingSub(true);setOpenMenu(false)}},"+ Add subtask"),
+              onMoveUp&&h("button",{type:"button",className:"lnk",onClick:onMoveUp},"\u2191 Move Up"),
+              onMoveDown&&h("button",{type:"button",className:"lnk",onClick:onMoveDown},"\u2193 Move Down")
+            ),
+            h("button",{type:"button",className:"lnk del",onClick:()=>{if(cd){onDelete();return}setCd(true)}},cd?"Sure? Tap again":"Delete")
+          )
+        ),
+        openSub&&children.length>0&&h(RecursiveSubtaskList,{
+          subtasks:children,
+          depth:depth+1,
+          onChange:nextChildren=>onUpdate({...sub,subtasks:nextChildren})
+        })
+      )
+    )
+  );
+}
+
+function RecursiveSubtaskList({subtasks,depth=1,onChange}){
+  const list=normalizeSubtasks(subtasks);
+  if(!list.length)return null;
+
+  const updateAt=(idx,nextNode)=>{
+    const copy=list.slice();
+    copy[idx]=nextNode;
+    onChange(copy);
+  };
+  const deleteAt=idx=>{
+    onChange(list.filter((_,i)=>i!==idx));
+  };
+  const moveAt=(idx,dir)=>{
+    onChange(moveIdx(list,idx,dir));
+  };
+
+  return h("div",{className:"subtasks",style:depth>3?{paddingLeft:"8px",marginLeft:"2px"}:undefined},
+    list.map((s,idx)=>h(RecursiveSubtaskNode,{
+      key:s.id||idx,
+      sub:s,
+      depth,
+      onUpdate:nextNode=>updateAt(idx,nextNode),
+      onDelete:()=>deleteAt(idx),
+      onMoveUp:idx>0?()=>moveAt(idx,-1):null,
+      onMoveDown:idx<list.length-1?()=>moveAt(idx,1):null
+    }))
+  );
+}
+
+function SprintTaskRow({t,first,onToggle,onUpdate,onDelete,onMoveUp,onMoveDown}){
+  const subtasks=normalizeSubtasks(t.subtasks);
+  return h(Row,{
+    first,
+    done:!!t.done,
+    onToggle,
+    onDelete,
+    onMoveUp,
+    onMoveDown,
+    subtasks,
+    onSubtasksChange:nextSubs=>onUpdate({...t,subtasks:nextSubs}),
+    form:close=>h(ItemForm,{fields:SF,init:{t:t.t},submit:"Save",onCancel:close,onSubmit:v=>{onUpdate({...t,t:v.t.trim()});close()}})
+  },rich(t.t));
+}
+
+function Alert({ico,title,text,done,doneText,onDone,soft}){
+  return h("div",{className:"alert"+(soft?" soft":"")+(done?" done":""),role:"status"},
+    h("div",{className:"ico"},done?"\u2713":ico),
+    h("div",{className:"msg"},h("b",null,title),done?doneText:text),
+    !done&&h("button",{className:"abtn",onClick:onDone},"Mark as done")
+  );
+}
+
+function RemindersCard({eyebrow,title,sub,items,setItems,tagFlt,setTagFlt,onUpdateMeta,onRestoreDefaults,onMoveSectionUp,onMoveSectionDown,onDeleteSection}){
+  const editMode=useContext(EditModeCtx);
+  const[cfgOpen,setCfgOpen]=useState(false),[cdDel,setCdDel]=useState(false);
+  const[metaForm,setMetaForm]=useState({eyebrow,title,sub});
+  useEffect(()=>{if(!editMode)setCfgOpen(false)},[editMode]);
+  useEffect(()=>{setMetaForm({eyebrow,title,sub})},[eyebrow,title,sub]);
+  useEffect(()=>{if(!cdDel)return;const t=setTimeout(()=>setCdDel(false),3000);return()=>clearTimeout(t)},[cdDel]);
+
+  const list=Array.isArray(items)?items.filter(x=>x&&typeof x==="object"):[];
+  const allTags=Array.from(new Set(list.flatMap(x=>extractTags(x)))).sort();
+  const activeTag=tagFlt||"";
+  const visible=sortReminders(list.filter(x=>!activeTag||extractTags(x).includes(activeTag.toLowerCase())));
+
+  const upd=item=>setItems(list.map(x=>x.id===item.id?item:x));
+  const del=id=>setItems(list.filter(x=>x.id!==id));
+  const add=v=>setItems([{id:uid(),t:v.t.trim(),note:(v.note||"").trim(),tags:parseTags(v.tags),pin:!!v.pin},...list]);
+
+  return h("section",{className:"card"},
+    h("div",{className:"card-head"},
+      h("div",{className:"grow"},
+        eyebrow&&h("div",{className:"eyebrow"},eyebrow),
+        h("h2",null,title||"Strong Reminders"),
+        sub&&h("p",{className:"mute",style:{marginTop:0}},rich(sub))
+      ),
+      editMode&&h("button",{className:"gear"+(cfgOpen?" on":""),"aria-label":"Section options","aria-expanded":cfgOpen,title:"Section options",onClick:()=>setCfgOpen(!cfgOpen)},"\u22ef")
+    ),
+    editMode&&cfgOpen&&h("div",{className:"panel",style:{marginBottom:"12px"}},
+      h("div",{className:"eyebrow"},"Customize Section Header"),
+      h("div",{className:"advrow"},
+        h("label",{className:"fl"},h("span",null,"Eyebrow"),h("input",{className:"txt",value:metaForm.eyebrow||"",onChange:e=>setMetaForm({...metaForm,eyebrow:e.target.value})})),
+        h("label",{className:"fl"},h("span",null,"Title"),h("input",{className:"txt",value:metaForm.title||"",onChange:e=>setMetaForm({...metaForm,title:e.target.value})})),
+        h("label",{className:"fl wide"},h("span",null,"Subtitle"),h("input",{className:"txt",value:metaForm.sub||"",onChange:e=>setMetaForm({...metaForm,sub:e.target.value})}))
+      ),
+      h("div",{className:"pfoot"},
+        h("div",{className:"pacts"},
+          h("button",{className:"btn sm",onClick:()=>{onUpdateMeta&&onUpdateMeta(metaForm);setCfgOpen(false)}},"Save Header"),
+          h("button",{className:"btn sm ghost",onClick:()=>setCfgOpen(false)},"Cancel"),
+          onRestoreDefaults&&h("button",{className:"lnk",onClick:()=>{onRestoreDefaults();setCfgOpen(false)}},"Restore Default Reminders"),
+          onMoveSectionUp&&h("button",{className:"lnk",onClick:onMoveSectionUp},"\u2191 Section Up"),
+          onMoveSectionDown&&h("button",{className:"lnk",onClick:onMoveSectionDown},"\u2193 Section Down")
+        ),
+        onDeleteSection&&h("button",{className:"lnk del",onClick:()=>{if(cdDel){onDeleteSection();return}setCdDel(true)}},cdDel?"Sure? Tap again to delete section":"Delete Section")
+      )
+    ),
+    allTags.length>0&&setTagFlt&&h("div",{className:"chips",style:{margin:"10px 0 6px"}},
+      h("button",{className:"chip"+(!activeTag?" on":""),onClick:()=>setTagFlt("")},"All Principles"),
+      allTags.map(tag=>h("button",{key:tag,className:"chip"+(activeTag===tag?" on":""),onClick:()=>setTagFlt(tag)},"#"+tag))
+    ),
+    visible.length>0?visible.map((item,i)=>h(ReminderRow,{
+      key:item.id||i,
+      item,
+      first:i===0,
+      onUpdate:upd,
+      onDelete:()=>del(item.id),
+      onMoveUp:i>0?()=>setItems(moveInList(list,visible,item.id,-1)):null,
+      onMoveDown:i<visible.length-1?()=>setItems(moveInList(list,visible,item.id,1)):null
+    })):h("p",{className:"empty"},"No reminders recorded here yet. Add a grounding principle below."),
+    h(ItemForm,{fields:REMF,init:{t:"",note:"",tags:"",pin:false},submit:"Add Reminder",onSubmit:add}),
+    editMode&&list.length===0&&onRestoreDefaults&&h("button",{className:"lnk",style:{marginTop:"6px"},onClick:onRestoreDefaults},"Load starter grounding principles")
+  );
+}
+
+function CustomChecklistCard({sec,onUpdateSec,onMoveSectionUp,onMoveSectionDown,onDeleteSection}){
+  const editMode=useContext(EditModeCtx);
+  const[cfgOpen,setCfgOpen]=useState(false),[cdDel,setCdDel]=useState(false);
+  const[meta,setMeta]=useState({eyebrow:sec.eyebrow||"",title:sec.title||"",sub:sec.sub||""});
+  useEffect(()=>{if(!editMode)setCfgOpen(false)},[editMode]);
+  useEffect(()=>{setMeta({eyebrow:sec.eyebrow||"",title:sec.title||"",sub:sec.sub||""})},[sec.eyebrow,sec.title,sec.sub]);
+  useEffect(()=>{if(!cdDel)return;const t=setTimeout(()=>setCdDel(false),3000);return()=>clearTimeout(t)},[cdDel]);
+
+  const items=Array.isArray(sec.items)?sec.items:[];
+  const ordered=sortTaskManual(items);
+  const doneCount=ordered.filter(x=>x.done).length;
+  const setItems=next=>onUpdateSec({...sec,items:next});
+
+  return h("section",{className:"card"},
+    h("div",{className:"card-head"},
+      h("div",{className:"grow"},
+        sec.eyebrow&&h("div",{className:"eyebrow"},sec.eyebrow),
+        h("h2",null,sec.title||"Checklist"),
+        sec.sub&&h("p",{className:"mute",style:{marginTop:0}},rich(sec.sub))
+      ),
+      editMode&&h("button",{className:"gear"+(cfgOpen?" on":""),"aria-label":"Section options",onClick:()=>setCfgOpen(!cfgOpen)},"\u22ef")
+    ),
+    editMode&&cfgOpen&&h("div",{className:"panel",style:{marginBottom:"12px"}},
+      h("div",{className:"eyebrow"},"Edit Section"),
+      h("div",{className:"advrow"},
+        h("label",{className:"fl"},h("span",null,"Eyebrow"),h("input",{className:"txt",value:meta.eyebrow,onChange:e=>setMeta({...meta,eyebrow:e.target.value})})),
+        h("label",{className:"fl"},h("span",null,"Title"),h("input",{className:"txt",value:meta.title,onChange:e=>setMeta({...meta,title:e.target.value})})),
+        h("label",{className:"fl wide"},h("span",null,"Subtitle"),h("input",{className:"txt",value:meta.sub,onChange:e=>setMeta({...meta,sub:e.target.value})}))
+      ),
+      h("div",{className:"pfoot"},
+        h("div",{className:"pacts"},
+          h("button",{className:"btn sm",onClick:()=>{onUpdateSec({...sec,...meta});setCfgOpen(false)}},"Save Section"),
+          h("button",{className:"btn sm ghost",onClick:()=>setCfgOpen(false)},"Cancel"),
+          onMoveSectionUp&&h("button",{className:"lnk",onClick:onMoveSectionUp},"\u2191 Section Up"),
+          onMoveSectionDown&&h("button",{className:"lnk",onClick:onMoveSectionDown},"\u2193 Section Down")
+        ),
+        onDeleteSection&&h("button",{className:"lnk del",onClick:()=>{if(cdDel){onDeleteSection();return}setCdDel(true)}},cdDel?"Sure? Tap again to delete section":"Delete Section")
+      )
+    ),
+    ordered.length>0&&Bar(doneCount,ordered.length),
+    ordered.length>0?ordered.map((t,i)=>h(Row,{
+      key:t.id||i,
+      first:i===0,
+      done:!!t.done,
+      hi:!!t.hi,
+      onToggle:()=>setItems(items.map(x=>x.id===t.id?{...x,done:!x.done}:x)),
+      onDelete:()=>setItems(items.filter(x=>x.id!==t.id)),
+      onMoveUp:i>0?()=>setItems(moveInList(items,ordered,t.id,-1)):null,
+      onMoveDown:i<ordered.length-1?()=>setItems(moveInList(items,ordered,t.id,1)):null,
+      subtasks:normalizeSubtasks(t.subtasks),
+      onSubtasksChange:nextSubs=>setItems(items.map(x=>x.id===t.id?{...x,subtasks:nextSubs}:x)),
+      info:t.date?h("div",{className:"date",style:{margin:"0 0 8px"}},"Due "+fmtISO(t.date)):null,
+      form:close=>h(ItemForm,{
+        fields:TF,
+        init:{text:t.t||t.text||"",tags:(t.tags||[]).join(", "),date:t.date||"",hi:!!t.hi},
+        submit:"Save",
+        onCancel:close,
+        onSubmit:v=>{
+          setItems(items.map(x=>x.id===t.id?{...x,t:v.text.trim(),tags:parseTags(v.tags),date:v.date,hi:!!v.hi}:x));
+          close();
+        }
+      })
+    },
+      h("div",null,
+        rich(t.t||t.text||""),
+        ((t.tags&&t.tags.length>0)||t.date)&&h("div",{className:"chips",style:{marginTop:"6px",marginBottom:0}},
+          t.date&&h("span",{className:"date",style:{marginRight:"6px"}},fmtISO(t.date)),
+          (t.tags||[]).map(tag=>h("button",{key:tag,type:"button",className:"tag-badge",onClick:()=>globalTagClickHandler&&globalTagClickHandler(tag.toLowerCase())},"#"+tag))
+        )
+      )
+    )):h("p",{className:"empty"},"No items in this section yet."),
+    h(ItemForm,{
+      fields:TF,
+      init:{text:"",tags:"",date:"",hi:false},
+      submit:"Add",
+      onSubmit:v=>setItems([...items,{id:uid(),t:v.text.trim(),tags:parseTags(v.tags),date:v.date,hi:!!v.hi,done:false,subtasks:[]}])
+    })
+  );
+}
+
+function CustomTopicsCard({sec,onUpdateSec,onMoveSectionUp,onMoveSectionDown,onDeleteSection}){
+  const editMode=useContext(EditModeCtx);
+  const[cfgOpen,setCfgOpen]=useState(false),[cdDel,setCdDel]=useState(false);
+  const[meta,setMeta]=useState({eyebrow:sec.eyebrow||"",title:sec.title||"",sub:sec.sub||""});
+  useEffect(()=>{if(!editMode)setCfgOpen(false)},[editMode]);
+  useEffect(()=>{setMeta({eyebrow:sec.eyebrow||"",title:sec.title||"",sub:sec.sub||""})},[sec.eyebrow,sec.title,sec.sub]);
+  useEffect(()=>{if(!cdDel)return;const t=setTimeout(()=>setCdDel(false),3000);return()=>clearTimeout(t)},[cdDel]);
+
+  const groups=Array.isArray(sec.groups)?sec.groups:[];
+  const setGroups=next=>onUpdateSec({...sec,groups:next});
+
+  return h("section",{className:"card"},
+    h("div",{className:"card-head"},
+      h("div",{className:"grow"},
+        sec.eyebrow&&h("div",{className:"eyebrow"},sec.eyebrow),
+        h("h2",null,sec.title||"Grouped Topics"),
+        sec.sub&&h("p",{className:"mute",style:{marginTop:0}},rich(sec.sub))
+      ),
+      editMode&&h("button",{className:"gear"+(cfgOpen?" on":""),"aria-label":"Section options",onClick:()=>setCfgOpen(!cfgOpen)},"\u22ef")
+    ),
+    editMode&&cfgOpen&&h("div",{className:"panel",style:{marginBottom:"12px"}},
+      h("div",{className:"eyebrow"},"Edit Section & Topic Groups"),
+      h("div",{className:"advrow"},
+        h("label",{className:"fl"},h("span",null,"Eyebrow"),h("input",{className:"txt",value:meta.eyebrow,onChange:e=>setMeta({...meta,eyebrow:e.target.value})})),
+        h("label",{className:"fl"},h("span",null,"Title"),h("input",{className:"txt",value:meta.title,onChange:e=>setMeta({...meta,title:e.target.value})})),
+        h("label",{className:"fl wide"},h("span",null,"Subtitle"),h("input",{className:"txt",value:meta.sub,onChange:e=>setMeta({...meta,sub:e.target.value})}))
+      ),
+      h("div",{className:"pfoot"},
+        h("div",{className:"pacts"},
+          h("button",{className:"btn sm",onClick:()=>{onUpdateSec({...sec,...meta});setCfgOpen(false)}},"Save Header"),
+          h("button",{className:"btn sm ghost",onClick:()=>setCfgOpen(false)},"Cancel"),
+          onMoveSectionUp&&h("button",{className:"lnk",onClick:onMoveSectionUp},"\u2191 Section Up"),
+          onMoveSectionDown&&h("button",{className:"lnk",onClick:onMoveSectionDown},"\u2193 Section Down")
+        ),
+        onDeleteSection&&h("button",{className:"lnk del",onClick:()=>{if(cdDel){onDeleteSection();return}setCdDel(true)}},cdDel?"Sure? Tap again":"Delete Section")
+      ),
+      h("div",{style:{borderTop:"1px solid var(--line)",marginTop:"12px",paddingTop:"10px"}},
+        h("div",{className:"eyebrow"},"Add Topic Category"),
+        h(ItemForm,{
+          fields:[{k:"c",ph:"New category name\u2026",label:"Category"}],
+          init:{c:""},
+          submit:"Add Group",
+          onSubmit:v=>setGroups([...groups,{id:uid(),c:v.c.trim(),items:[]}])
+        })
+      )
+    ),
+    groups.length===0&&h("p",{className:"empty"},editMode?"No topic groups yet. Open \u22ef above to add a category.":"No topic groups yet."),
+    groups.map((g,gi)=>h(TopicGroupBlock,{
+      key:g.id||gi,
+      group:g,
+      onUpdate:nextG=>setGroups(groups.map((x,idx)=>idx===gi?nextG:x)),
+      onDelete:()=>setGroups(groups.filter((_,idx)=>idx!==gi)),
+      onMoveUp:gi>0?()=>setGroups(moveIdx(groups,gi,-1)):null,
+      onMoveDown:gi<groups.length-1?()=>setGroups(moveIdx(groups,gi,1)):null
+    }))
+  );
+}
+
+function TopicGroupBlock({group,onUpdate,onDelete,onMoveUp,onMoveDown}){
+  const editMode=useContext(EditModeCtx);
+  const[open,setOpen]=useState(false),[cd,setCd]=useState(false),[editIdx,setEditIdx]=useState(-1),[editVal,setEditVal]=useState("");
+  useEffect(()=>{if(!editMode)setOpen(false)},[editMode]);
+  useEffect(()=>{if(!cd)return;const t=setTimeout(()=>setCd(false),3000);return()=>clearTimeout(t)},[cd]);
+  const items=Array.isArray(group.items)?group.items:[];
+
+  return h("div",{style:{marginTop:"20px"}},
+    h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",borderBottom:"1px solid var(--line)",paddingBottom:"6px",marginBottom:"12px"}},
+      h("h3",{style:{fontSize:"17px",color:"var(--gold)",margin:0}},group.c+" ("+items.length+")"),
+      editMode&&h("button",{className:"gear"+(open?" on":""),"aria-label":"Manage category",onClick:()=>setOpen(!open)},"\u22ef")
+    ),
+    editMode&&open&&h("div",{className:"panel",style:{marginBottom:"12px"}},
+      h(ItemForm,{
+        fields:[{k:"c",ph:"Category title\u2026",label:"Category title"}],
+        init:{c:group.c},
+        submit:"Rename",
+        onCancel:()=>setOpen(false),
+        onSubmit:v=>onUpdate({...group,c:v.c.trim()})
+      }),
+      h(ItemForm,{
+        fields:[{k:"item",ph:"Add new topic card\u2026",label:"Topic"}],
+        init:{item:""},
+        submit:"Add Topic",
+        onSubmit:v=>onUpdate({...group,items:[...items,v.item.trim()]})
+      }),
+      items.length>0&&h("div",{style:{marginTop:"10px",display:"flex",flexDirection:"column",gap:"6px"}},
+        items.map((it,idx)=>h("div",{key:idx,className:"ws-item"},
+          editIdx===idx
+            ?h("input",{className:"txt",value:editVal,onChange:e=>setEditVal(e.target.value),onKeyDown:e=>{if(e.key==="Enter"&&editVal.trim()){const n=items.slice();n[idx]=editVal.trim();onUpdate({...group,items:n});setEditIdx(-1)}}})
+            :h("span",{className:"grow",style:{fontSize:"13.5px"}},it),
+          editIdx===idx
+            ?h("button",{className:"lnk",onClick:()=>{if(editVal.trim()){const n=items.slice();n[idx]=editVal.trim();onUpdate({...group,items:n})}setEditIdx(-1)}},"Save")
+            :h("button",{className:"lnk",onClick:()=>{setEditIdx(idx);setEditVal(it)}},"Edit"),
+          idx>0&&h("button",{className:"lnk",onClick:()=>onUpdate({...group,items:moveIdx(items,idx,-1)})},"\u2191"),
+          idx<items.length-1&&h("button",{className:"lnk",onClick:()=>onUpdate({...group,items:moveIdx(items,idx,1)})},"\u2193"),
+          h("button",{className:"lnk del",onClick:()=>onUpdate({...group,items:items.filter((_,j)=>j!==idx)})},"\u00d7")
+        ))
+      ),
+      h("div",{className:"pfoot"},
+        h("div",{className:"pacts"},
+          onMoveUp&&h("button",{className:"lnk",onClick:onMoveUp},"\u2191 Category Up"),
+          onMoveDown&&h("button",{className:"lnk",onClick:onMoveDown},"\u2193 Category Down")
+        ),
+        onDelete&&h("button",{className:"lnk del",onClick:()=>{if(cd){onDelete();return}setCd(true)}},cd?"Sure? Tap again":"Delete Category")
+      )
+    ),
+    h("div",{className:"grid",style:{gridTemplateColumns:"repeat(auto-fit, minmax(200px, 1fr))"}},
+      items.map((item,j)=>h("div",{key:j,className:"pr",style:{padding:"8px 12px",fontSize:"14px"}},rich(item)))
+    )
+  );
+}
+
+function WorkspaceManager({tabs,setTabs,activeTab,setActiveTab,layoutEditMode,setLayoutEditMode,allTags,tagFlt,setTagFlt,onResetLayout,onDeleteCustomTabData,onClose}){
+  const[newTitle,setNewTitle]=useState("");
+  const[newTpl,setNewTpl]=useState("checklist");
+  const[confirmId,setConfirmId]=useState(null);
+
+  useEffect(()=>{
+    if(!confirmId)return;
+    const t=setTimeout(()=>setConfirmId(null),3000);
+    return()=>clearTimeout(t);
+  },[confirmId]);
+
+  const visibleCount=tabs.filter(t=>!t.hidden).length;
+
+  const renameTab=(id,title)=>setTabs(tabs.map(t=>t.id===id?{...t,title}:t));
+  const toggleHide=id=>{
+    const target=tabs.find(t=>t.id===id);
+    if(!target)return;
+    if(!target.hidden&&visibleCount<=1)return;
+    const next=tabs.map(t=>t.id===id?{...t,hidden:!t.hidden}:t);
+    setTabs(next);
+    if(activeTab===id&&!target.hidden){
+      const firstVis=next.find(t=>!t.hidden);
+      if(firstVis)setActiveTab(firstVis.id);
+    }
+  };
+  const moveTab=(idx,dir)=>setTabs(moveIdx(tabs,idx,dir));
+  const addCustomTab=()=>{
+    if(!newTitle.trim())return;
+    const id="custom-"+uid();
+    const entry={id,title:newTitle.trim(),builtin:false,hidden:false,template:newTpl};
+    setTabs([...tabs,entry]);
+    setNewTitle("");
+    setActiveTab(id);
+  };
+  const deleteCustomTab=id=>{
+    if(confirmId!==id){setConfirmId(id);return}
+    const next=tabs.filter(t=>t.id!==id);
+    setTabs(next);
+    onDeleteCustomTabData(id);
+    setConfirmId(null);
+    if(activeTab===id){
+      const firstVis=next.find(t=>!t.hidden);
+      if(firstVis)setActiveTab(firstVis.id);
+    }
+  };
+
+  return h("section",{className:"card ws-card"},
+    h("div",{className:"card-head"},
+      h("div",{className:"grow"},
+        h("div",{className:"eyebrow"},"Workspace & Customization"),
+        h("h2",null,"Workspace Manager"),
+        h("p",{className:"mute",style:{marginTop:0}},"Enable Edit Layout to reveal section/row options (\u22ef), rename headers, or rearrange widgets across tabs.")
+      ),
+      h("div",{className:"pacts"},
+        h("button",{
+          type:"button",
+          className:"btn sm"+(layoutEditMode?"":" ghost"),
+          style:{marginTop:0,borderColor:"var(--gold)"},
+          onClick:()=>setLayoutEditMode(!layoutEditMode)
+        },layoutEditMode?"\u2713 Exit Edit Layout":"\u2726 Edit Layout"),
+        h("button",{className:"btn sm ghost",style:{marginTop:0},onClick:onClose},"Done")
+      )
+    ),
+    allTags&&allTags.length>0&&h("div",{style:{borderTop:"1px solid var(--line)",paddingTop:"12px",marginTop:"12px"}},
+      h("div",{className:"eyebrow"},"Tag Filter"),
+      h("div",{className:"chips",style:{marginTop:"6px"}},
+        h("button",{type:"button",className:"chip"+(!tagFlt?" on":""),onClick:()=>setTagFlt("")},"All Tags"),
+        allTags.map(tag=>h("button",{
+          key:tag,
+          type:"button",
+          className:"chip"+(tagFlt===tag?" on":""),
+          onClick:()=>setTagFlt(tagFlt===tag?"":tag)
+        },"#"+tag))
+      )
+    ),
+    h("div",{style:{borderTop:"1px solid var(--line)",paddingTop:"12px",marginTop:"12px"}},
+      h("div",{className:"eyebrow"},"Navigation Tabs"),
+      h("div",{className:"ws-list"},
+        tabs.map((t,idx)=>h("div",{key:t.id,className:"ws-item"+(t.hidden?" is-hidden":"")},
+          h("div",{className:"pacts"},
+            h("button",{type:"button",className:"lnk",disabled:idx===0,title:"Move left",onClick:()=>moveTab(idx,-1)},"\u2190"),
+            h("button",{type:"button",className:"lnk",disabled:idx===tabs.length-1,title:"Move right",onClick:()=>moveTab(idx,1)},"\u2192")
+          ),
+          h("input",{
+            className:"txt",
+            value:t.title,
+            "aria-label":"Tab title",
+            onChange:e=>renameTab(t.id,e.target.value)
+          }),
+          h("span",{className:"tag-badge"},t.builtin?"Built-in":(t.template==="notes"?"Notes":t.template==="topics"?"Topics":"Checklist")),
+          h("button",{
+            type:"button",
+            className:"chip"+(!t.hidden?" on":""),
+            onClick:()=>toggleHide(t.id),
+            title:t.hidden?"Show tab in navigation":"Hide tab from navigation"
+          },t.hidden?"Hidden":"Visible"),
+          !t.builtin&&h("button",{
+            type:"button",
+            className:"lnk del",
+            onClick:()=>deleteCustomTab(t.id)
+          },confirmId===t.id?"Sure? Tap again":"Delete")
+        ))
+      )
+    ),
+    h("div",{style:{borderTop:"1px solid var(--line)",paddingTop:"12px",marginTop:"10px"}},
+      h("div",{className:"eyebrow"},"Create Custom Tab"),
+      h("div",{className:"addrow"},
+        h("input",{
+          className:"txt big",
+          placeholder:"New tab name (e.g. Boutique Research, Journal)\u2026",
+          value:newTitle,
+          onChange:e=>setNewTitle(e.target.value),
+          onKeyDown:e=>{if(e.key==="Enter")addCustomTab()}
+        }),
+        h("select",{className:"txt sel",value:newTpl,onChange:e=>setNewTpl(e.target.value),"aria-label":"Template type"},
+          h("option",{value:"checklist"},"Template: Checklist / Tasks"),
+          h("option",{value:"notes"},"Template: Notes / Principles"),
+          h("option",{value:"topics"},"Template: Grouped Topics / Cards")
+        ),
+        h("button",{className:"btn",onClick:addCustomTab},"Create Tab")
+      ),
+      h("div",{className:"pfoot"},
+        h("button",{type:"button",className:"lnk",onClick:()=>setTabs(DEFAULT_TABS)},"Reset built-in tab order & names"),
+        h("button",{type:"button",className:"lnk",onClick:onResetLayout},"Reset all widgets to default layout")
+      )
+    ),
+    h("div",{className:"pwa-guide"},
+      h("b",null,"iOS Safari Offline Mode \u00b7 Add to Home Screen"),
+      "iOS Safari strictly limits offline caching for standard browser tabs. For full offline reliability on iPhone or iPad, tap Safari\u2019s ",
+      h("strong",null,"Share"),
+      " button (\u2191) and select ",
+      h("strong",null,"\u201cAdd to Home Screen\u201d"),
+      " to install Al-Qudwah as a standalone app."
+    )
+  );
+}
+
+function EditableCourseCard({course,ms,onToggleMilestone,onUpdateCourse,onDeleteCourse,onMoveUp,onMoveDown}){
+  const editMode=useContext(EditModeCtx);
+  const[open,setOpen]=useState(false),[cd,setCd]=useState(false);
+  const[meta,setMeta]=useState({n:course.n,why:course.why});
+  useEffect(()=>{if(!editMode)setOpen(false)},[editMode]);
+  useEffect(()=>{setMeta({n:course.n,why:course.why})},[course.n,course.why]);
+  useEffect(()=>{if(!cd)return;const t=setTimeout(()=>setCd(false),3000);return()=>clearTimeout(t)},[cd]);
+
+  const items=Array.isArray(course.m)?course.m:[];
+  const doneCount=items.filter((_,i)=>ms[i]).length;
+
+  const updateMilestone=(idx,val)=>{
+    const next=items.slice();
+    next[idx]=val;
+    onUpdateCourse({...course,m:next});
+  };
+  const deleteMilestone=idx=>{
+    const nextM=items.filter((_,i)=>i!==idx);
+    const nextMs=ms.filter((_,i)=>i!==idx);
+    onUpdateCourse({...course,m:nextM},nextMs);
+  };
+  const moveMilestone=(idx,dir)=>{
+    const nextM=moveIdx(items,idx,dir);
+    const nextMs=moveIdx(items.map((_,i)=>!!ms[i]),idx,dir);
+    onUpdateCourse({...course,m:nextM},nextMs);
+  };
+  const addMilestone=v=>{
+    onUpdateCourse({...course,m:[...items,v.m.trim()]});
+  };
+
+  return h("section",{className:"card"},
+    h("div",{className:"card-head"},
+      h("div",{className:"grow"},
+        h("h3",null,course.n),
+        h("p",{className:"mute",style:{marginTop:2}},rich(course.why))
+      ),
+      editMode&&h("button",{className:"gear"+(open?" on":""),"aria-label":"Course options",onClick:()=>setOpen(!open)},"\u22ef")
+    ),
+    editMode&&open&&h("div",{className:"panel",style:{marginBottom:"12px"}},
+      h("div",{className:"eyebrow"},"Edit Learning Track"),
+      h("div",{className:"advrow"},
+        h("label",{className:"fl"},h("span",null,"Track Title"),h("input",{className:"txt",value:meta.n,onChange:e=>setMeta({...meta,n:e.target.value})})),
+        h("label",{className:"fl wide"},h("span",null,"Why it matters"),h("input",{className:"txt",value:meta.why,onChange:e=>setMeta({...meta,why:e.target.value})}))
+      ),
+      h("div",{className:"pfoot"},
+        h("div",{className:"pacts"},
+          h("button",{className:"btn sm",onClick:()=>{onUpdateCourse({...course,n:meta.n.trim(),why:meta.why.trim()});setOpen(false)}},"Save Track"),
+          h("button",{className:"btn sm ghost",onClick:()=>setOpen(false)},"Cancel"),
+          onMoveUp&&h("button",{className:"lnk",onClick:onMoveUp},"\u2191 Track Up"),
+          onMoveDown&&h("button",{className:"lnk",onClick:onMoveDown},"\u2193 Track Down")
+        ),
+        onDeleteCourse&&h("button",{className:"lnk del",onClick:()=>{if(cd){onDeleteCourse();return}setCd(true)}},cd?"Sure? Tap again":"Delete Track")
+      ),
+      h("div",{style:{borderTop:"1px solid var(--line)",marginTop:"10px",paddingTop:"10px"}},
+        h(ItemForm,{fields:[{k:"m",ph:"Add a new milestone to this track\u2026",label:"Milestone"}],init:{m:""},submit:"Add Milestone",onSubmit:addMilestone})
+      )
+    ),
+    Bar(doneCount,items.length),
+    items.map((m,i)=>h(Row,{
+      key:i,
+      first:i===0,
+      done:!!ms[i],
+      onToggle:()=>onToggleMilestone(i),
+      onDelete:()=>deleteMilestone(i),
+      onMoveUp:i>0?()=>moveMilestone(i,-1):null,
+      onMoveDown:i<items.length-1?()=>moveMilestone(i,1):null,
+      form:close=>h(ItemForm,{
+        fields:[{k:"m",ph:"Milestone\u2026",label:"Milestone"}],
+        init:{m:m},
+        submit:"Save",
+        onCancel:close,
+        onSubmit:v=>{updateMilestone(i,v.m.trim());close()}
+      })
+    },rich(m)))
+  );
+}
+
+function ArchiveSubtasksReadOnly({subtasks}){
+  const list=normalizeSubtasks(subtasks);
+  if(!list.length)return null;
+  return h("div",{className:"subtasks"},
+    list.map((s,idx)=>h("div",{key:s.id||idx,className:"subtask-node"},
+      h("div",{className:"subtask-row"+(s.done?" done":"")},
+        h("div",{className:"arch-mark",style:{width:"18px",height:"18px",fontSize:"11px"},"aria-hidden":"true"},s.done?"\u2713":"\u2014"),
+        h("div",{className:"grow"},
+          h("div",{className:"t",style:{fontSize:"14px"}},rich(s.t)),
+          s.subtasks&&s.subtasks.length>0&&h(ArchiveSubtasksReadOnly,{subtasks:s.subtasks})
+        )
+      )
+    ))
+  );
+}
+
+function ArchiveCard({entry,today,onDelete,onUpdateTitle}){
+  const editMode=useContext(EditModeCtx);
+  const[open,setOpen]=useState(false),[cd,setCd]=useState(false);
+  const[label,setLabel]=useState(entry.title||("Sprint ended "+fmtLongISO(entry.ended||today)));
+  useEffect(()=>{if(!editMode)setOpen(false)},[editMode]);
+  useEffect(()=>{if(!cd)return;const t=setTimeout(()=>setCd(false),3000);return()=>clearTimeout(t)},[cd]);
+
+  const list=Array.isArray(entry.tasks)?entry.tasks:[];
+  const ordered=sortSprint(list);
+  const cDone=ordered.filter(x=>x.done).length;
+
+  return h("section",{className:"card"},
+    h("div",{className:"arch-head"},
+      h("div",{className:"grow"},
+        h("div",{className:"eyebrow"},"Completed Cycle"),
+        h("h3",null,entry.title||("Sprint ended "+fmtLongISO(entry.ended||today)))
+      ),
+      h("div",{className:"pacts"},
+        h("span",{className:"badge"},cDone+" of "+ordered.length+" completed"),
+        editMode&&h("button",{className:"gear"+(open?" on":""),"aria-label":"Archive options",onClick:()=>setOpen(!open)},"\u22ef")
+      )
+    ),
+    editMode&&open&&h("div",{className:"panel",style:{marginBottom:"10px"}},
+      h(ItemForm,{
+        fields:[{k:"title",ph:"Archive title\u2026",label:"Title"}],
+        init:{title:label},
+        submit:"Save Title",
+        onCancel:()=>setOpen(false),
+        onSubmit:v=>{setLabel(v.title.trim());onUpdateTitle(v.title.trim());setOpen(false)}
+      }),
+      h("div",{className:"pfoot"},
+        h("span",{className:"mute"},"Archived on "+(entry.archivedOn||entry.ended||today)),
+        h("button",{className:"lnk del",onClick:()=>{if(cd){onDelete();return}setCd(true)}},cd?"Sure? Tap again to delete record":"Delete Record")
+      )
+    ),
+    ordered.length?Bar(cDone,ordered.length):null,
+    ordered.length===0?h("p",{className:"empty"},"No tasks were recorded in this Sprint cycle."):ordered.map((item,j)=>h("div",{key:item.id||j,className:"row"+(item.done?" done":"")+(j===0?" first":"")},
+      h("div",{className:"arch-mark","aria-hidden":"true"},item.done?"\u2713":"\u2014"),
+      h("div",{className:"grow"},
+        h("div",{className:"t"},rich(item.t)),
+        item.subtasks&&item.subtasks.length>0&&h(ArchiveSubtasksReadOnly,{subtasks:item.subtasks})
+      )
+    ))
+  );
+}
+
+function WidgetShell({widget,tabId,idx,total,tabs,editMode,onMoveWidget,onTransferWidget,onDuplicateWidget,onRemoveWidget,children}){
+  const[confirmDel,setConfirmDel]=useState(false);
+  useEffect(()=>{
+    if(!confirmDel)return;
+    const t=setTimeout(()=>setConfirmDel(false),3000);
+    return()=>clearTimeout(t);
+  },[confirmDel]);
+
+  if(!editMode)return children;
+  const meta=WIDGET_CATALOG.find(w=>w.type===widget.type)||{label:widget.type};
+
+  return h("div",{className:"widget-wrap editing"},
+    h("div",{className:"w-toolbar"},
+      h("div",{className:"w-title-pill"},"\u2261 "+meta.label+(widget.title?" \u00b7 "+widget.title:"")),
+      h("div",{className:"w-ctrls"},
+        h("button",{type:"button",className:"lnk",disabled:idx===0,onClick:()=>onMoveWidget(tabId,idx,-1)},"\u2191 Up"),
+        h("button",{type:"button",className:"lnk",disabled:idx===total-1,onClick:()=>onMoveWidget(tabId,idx,1)},"\u2193 Down"),
+        h("select",{
+          className:"w-sel",
+          value:"",
+          "aria-label":"Move widget to another tab",
+          onChange:e=>{if(e.target.value)onTransferWidget(tabId,idx,e.target.value)}
+        },
+          h("option",{value:""},"Move to tab\u2026"),
+          tabs.filter(t=>t.id!==tabId).map(t=>h("option",{key:t.id,value:t.id},"\u2192 "+t.title))
+        ),
+        h("button",{type:"button",className:"lnk",onClick:()=>onDuplicateWidget(tabId,idx)},"Duplicate"),
+        h("button",{
+          type:"button",
+          className:"lnk del",
+          onClick:()=>{if(confirmDel)onRemoveWidget(tabId,idx);else setConfirmDel(true)}
+        },confirmDel?"Confirm remove?":"Remove")
+      )
+    ),
+    children
+  );
+}
+
+function App(){
+  const now=new Date(),today=dkey(now);
+  const[rawTabs,setRawTabs]=useStored("pd.tabsConfig",DEFAULT_TABS);
+  const tabsConfig=normalizeTabs(rawTabs);
+  const visibleTabs=tabsConfig.filter(t=>!t.hidden);
+
+  const[tab,setTab]=useState("goals"),[wsOpen,setWsOpen]=useState(false),[layoutEditMode,setLayoutEditMode]=useState(false);
+  const[isOnline,setIsOnline]=useState(()=>navigator.onLine!==false);
+  const[,setTick]=useState(0);
+
+  useEffect(()=>{
+    const onNet=()=>setIsOnline(navigator.onLine!==false);
+    window.addEventListener("online",onNet);
+    window.addEventListener("offline",onNet);
+    return()=>{window.removeEventListener("online",onNet);window.removeEventListener("offline",onNet)};
+  },[]);
+
+  useEffect(()=>{
+    if(!visibleTabs.some(t=>t.id===tab)&&visibleTabs.length>0){
+      setTab(visibleTabs[0].id);
+    }
+  },[ visibleTabs.map(t=>t.id).join(","), tab ]);
+
+  useEffect(()=>{
+    const f=()=>setTick(x=>x+1),id=setInterval(f,60000);
+    document.addEventListener("visibilitychange",f);
+    window.addEventListener("focus",f);
+    return()=>{clearInterval(id);document.removeEventListener("visibilitychange",f);window.removeEventListener("focus",f)};
+  },[]);
+
+  const[goals,setGoals]=useStored("pd.goals",{});
+  const[days,setDays]=useStored("pd.days",{});
+  const[weeks]=useStored("pd.weeks",{});
+  const[lp,setLp]=useStored("pd.lp",{});
+  const[rawT,setTodos]=useStored("pd.todos",[]),[flt,setFlt]=useState("open"),[tagFlt,setTagFlt]=useState("");
+
+  const[reminders,setReminders]=useStored("pd.reminders",[]);
+  const[remMeta,setRemMeta]=useStored("pd.remMeta",{
+    eyebrow:"Anchor & Principles",
+    title:"Strong Reminders",
+    sub:"Grounding principles, ideas, and truths to anchor yourself during unstable times."
+  });
+  const[customTabsData,setCustomTabsData]=useStored("pd.customTabsData",{});
+  const[rawLayout,setRawLayout]=useStored("pd.layoutConfig",DEFAULT_LAYOUT);
+  const[widgetData,setWidgetData]=useStored("pd.widgetData",{});
+  const[addWidgetType,setAddWidgetType]=useState("custom_checklist");
+
+  useEffect(()=>{
+    globalTagClickHandler=tag=>{
+      const clean=String(tag||"").toLowerCase();
+      setTagFlt(prev=>prev===clean?"":clean);
+    };
+    return()=>{globalTagClickHandler=null};
+  },[]);
+
+  const layoutConfig=useMemo(()=>normalizeLayout(rawLayout,tabsConfig,customTabsData),[rawLayout,tabsConfig,customTabsData]);
+
+  const updateWidgetInstance=(wId,updater)=>{
+    setWidgetData(prev=>{
+      const safe=prev&&typeof prev==="object"?prev:{};
+      const cur=safe[wId]||{};
+      const next=typeof updater==="function"?updater(cur):updater;
+      return{...safe,[wId]:next};
+    });
+  };
+
+  const[currList,setCurrList]=useStored("pd.curriculum",CURRICULUM);
+  const[currMeta,setCurrMeta]=useStored("pd.currMeta",{
+    eyebrow:"Curriculum Topics",
+    title:"Master Concept Rotation",
+    sub:"These core concepts automatically rotate through your Morning Briefs to build long-term retention."
+  });
+  const[currCfgOpen,setCurrCfgOpen]=useState(false);
+
+  const[lvData,setLvData]=useStored("pd.lvCourse",LV);
+  const[lvCfgOpen,setLvCfgOpen]=useState(false);
+
+  const[lpCourses,setLpCourses]=useStored("pd.lpCourses",L);
+  const[addingCourse,setAddingCourse]=useState(false);
+  const[newCourse,setNewCourse]=useState({n:"",why:""});
+
+  const[tlData,setTlData]=useStored("pd.trajectory",TL);
+  const[tlCfgOpen,setTlCfgOpen]=useState(false);
+
+  const[ltData,setLtData]=useStored("pd.longGoal",LT);
+  const[ltCfgOpen,setLtCfgOpen]=useState(false);
+
+  const[spRaw,setSprint]=useStored("pd.sprint",[]),sprint=fix(spRaw,[]);
+  const[sprintEnd,setSprintEnd]=useStored("pd.sprintEnd","2027-01-01");
+  const[sprintMeta,setSprintMeta]=useStored("pd.sprintMeta",{
+    eyebrow:"Primary Focus \u00b7 Active Cycle",
+    title:"Sprint",
+    sub:"A focused, time-boxed cycle dedicated to your highest-leverage priorities. Completed tasks automatically settle to the bottom, and the entire cycle is preserved in your Archive when the deadline arrives."
+  });
+  const[spCfgOpen,setSpCfgOpen]=useState(false),[spArchiveConfirm,setSpArchiveConfirm]=useState(false);
+  const[archRaw,setArchive]=useStored("pd.archive",[]),archive=Array.isArray(archRaw)?archRaw:[];
+  const rolledRef=useRef(null);
+
+  useEffect(()=>{
+    if(!layoutEditMode){
+      setSpCfgOpen(false);
+      setCurrCfgOpen(false);
+      setLvCfgOpen(false);
+      setTlCfgOpen(false);
+      setLtCfgOpen(false);
+      setAddingCourse(false);
+    }
+  },[layoutEditMode]);
+
+  const todos=Array.isArray(rawT)?rawT.filter(x=>x&&typeof x==="object"):[];
+  const allTags=useMemo(()=>{
+    const activeRems=Array.isArray(reminders)?reminders:[];
+    return Array.from(new Set([
+      ...todos.flatMap(t=>extractTags(t)),
+      ...activeRems.flatMap(r=>extractTags(r)),
+      ...sprint.flatMap(s=>extractTags(s))
+    ])).sort();
+  },[todos,reminders,sprint]);
+
+  const inFlt=f=>todos.filter(t=>{
+    const statusMatch=f==="all"||(f==="done")===!!t.done;
+    const itemTags=extractTags(t);
+    const tagMatch=!tagFlt||itemTags.includes(tagFlt.toLowerCase());
+    return statusMatch&&tagMatch;
+  });
+
+  const upd=t=>setTodos(prev=>(Array.isArray(prev)?prev:[]).map(x=>x.id===t.id?t:x));
+  const del=id=>setTodos(prev=>(Array.isArray(prev)?prev:[]).filter(x=>x.id!==id));
+  const addT=t=>setTodos(prev=>[...(Array.isArray(prev)?prev:[]),t]);
+
+  const tagFilterUI=allTags.length>0&&h("div",{className:"chips",style:{marginBottom:"14px"}},
+    h("button",{className:"chip"+(!tagFlt?" on":""),onClick:()=>setTagFlt("")},"All Tags"),
+    allTags.map(tag=>h("button",{key:tag,className:"chip"+(tagFlt===tag?" on":""),onClick:()=>setTagFlt(tagFlt===tag?"":tag)},"#"+tag))
+  );
+
+  const renderTaskRow=(t,i,visibleList)=>h(Row,{
+    key:t.id||i,
+    first:i===0,
+    done:!!t.done,
+    hi:!!t.hi,
+    onToggle:()=>upd({...t,done:!t.done}),
+    onDelete:()=>del(t.id),
+    onMoveUp:i>0?()=>setTodos(moveInList(todos,visibleList,t.id,-1)):null,
+    onMoveDown:i<visibleList.length-1?()=>setTodos(moveInList(todos,visibleList,t.id,1)):null,
+    subtasks:normalizeSubtasks(t.subtasks),
+    onSubtasksChange:nextSubs=>upd({...t,subtasks:nextSubs}),
+    info:t.date?h("div",{className:"date",style:{margin:"0 0 8px"}},"Scheduled: "+fmtISO(t.date)):null,
+    form:close=>h(ItemForm,{
+      fields:TF,
+      init:{text:String(t.text||t.t||""),tags:(t.tags||[]).join(", "),date:t.date||"",hi:!!t.hi},
+      submit:"Save",
+      onCancel:close,
+      onSubmit:v=>{
+        upd({...t,text:v.text.trim(),tags:parseTags(v.tags),date:v.date,hi:!!v.hi});
+        close();
+      }
+    })
+  },
+    h("div",null,
+      rich(String(t.text||t.t||"")),
+      ((t.tags&&t.tags.length>0)||t.date)&&h("div",{className:"chips",style:{marginTop:"6px",marginBottom:"0"}},
+        t.date&&t.date!==today&&h("span",{className:"date",style:{marginRight:"6px"}},fmtISO(t.date)),
+        (t.tags||[]).map(tag=>h("button",{key:tag,type:"button",className:"tag-badge",onClick:()=>globalTagClickHandler&&globalTagClickHandler(tag.toLowerCase())},"#"+tag))
+      )
+    )
+  );
+
+  const addForm=(date,ph)=>h(ItemForm,{
+    fields:TF.map((f,i)=>i===0?{...f,ph}:f),
+    init:{text:"",tags:"",date,hi:false},
+    submit:"Add",
+    onSubmit:v=>{
+      addT({id:uid(),text:v.text.trim(),tags:parseTags(v.tags),date:v.date,done:false,hi:!!v.hi,subtasks:[]});
+    }
+  });
+
+  const tList=sortTaskManual(todos.filter(t=>t.date===today&&(!tagFlt||extractTags(t).includes(tagFlt.toLowerCase()))));
+  const tDone=tList.filter(t=>t.done).length;
+
+  useEffect(()=>{
+    if(!spArchiveConfirm)return;
+    const t=setTimeout(()=>setSpArchiveConfirm(false),3500);
+    return()=>clearTimeout(t);
+  },[spArchiveConfirm]);
+
+  const archiveAndRollSprint=customNextEnd=>{
+    const activeEnd=typeof sprintEnd==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(sprintEnd)?sprintEnd:"2027-01-01";
+    const nextDate=new Date(now.getFullYear(),now.getMonth(),now.getDate()+75);
+    const nextEnd=customNextEnd||dkey(nextDate);
+    const snap=fix(spRaw,[]).map(x=>({id:x.id,t:x.t,done:!!x.done,subtasks:normalizeSubtasks(x.subtasks)}));
+    const record={id:"sp-"+activeEnd+"-"+uid(),ended:activeEnd,archivedOn:today,tasks:snap};
+    setArchive(prev=>[record,...(Array.isArray(prev)?prev:[])]);
+    setSprint([]);
+    setSprintEnd(nextEnd);
+    setSpArchiveConfirm(false);
+    setSpCfgOpen(false);
+  };
+
+  useEffect(()=>{
+    const activeEnd=typeof sprintEnd==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(sprintEnd)?sprintEnd:"2027-01-01";
+    if(dayDiff(today,activeEnd)>0&&rolledRef.current!==activeEnd){
+      rolledRef.current=activeEnd;
+      archiveAndRollSprint();
+    }
+  },[today,sprintEnd]);
+
+  const sortedSprint=sortSprint(sprint.filter(x=>!tagFlt||extractTags(x).includes(tagFlt.toLowerCase())));
+  const spDone=sprint.filter(x=>x.done).length;
+  const spDaysLeft=dayDiff(sprintEnd,today);
+
+  const toggleSprintTask=t=>{
+    const nextDone=!t.done;
+    const updated={...t,done:nextDone};
+    const others=sprint.filter(x=>x.id!==t.id);
+    setSprint(nextDone?[...others,updated]:[updated,...others]);
+  };
+
+  const[rawA,setAnki]=useStored("pd.anki",[]),anki=Array.isArray(rawA)?rawA:[];
+  const addAnki=x=>{if(anki.includes(x))return "dup";setAnki(prev=>[...(Array.isArray(prev)?prev:[]),x]);return "ok"};
+
+  const[sgRaw,setSg]=useStored("pd.sg",SG),sgList=fix(sgRaw,SG);
+  const[dtRaw,setDt]=useStored("pd.dt",DT),dtList=fix(dtRaw,DT);
+  const[regRaw,setReg]=useStored("pd.reg",REG),regList=fix(regRaw,REG);
+  const[rdone,setRdone]=useStored("pd.rdone",{}),[inv]=useStored("pd.invest",{});
+
+  const ids=dtList.map(t=>t.id),NT=ids.length,dm=dayMap(days[today]),dCount=ids.filter(i=>dm[i]).length;
+  const setTask=(id,v)=>setDays(prev=>{const cur=dayMap(prev[today]);return{...prev,[today]:{...cur,[id]:v,_t:ids}}});
+  const upsert=(list,set,x)=>set(list.some(y=>y.id===x.id)?list.map(y=>y.id===x.id?x:y):[...list,x]);
+  const remove=(list,set,id)=>set(list.filter(y=>y.id!==id));
+  const restore=(def,list,set)=>{
+    if(!layoutEditMode)return null;
+    const m=def.filter(d=>!list.some(x=>x.id===d.id));
+    return m.length>0&&h("button",{className:"lnk",onClick:()=>set([...list,...m])},"Restore "+m.length+" default item"+(m.length>1?"s":""));
+  };
+
+  const rIs=(t,p)=>{
+    const v=rdone[t.id+"|"+p.key];
+    if(v!==undefined)return !!v;
+    return t.id==="ayub"?!!weeks[p.key]:t.id==="invest"?!!inv[p.key]:false;
+  };
+  const rSet=(t,p,v)=>setRdone(prev=>({...prev,[t.id+"|"+p.key]:v}));
+
+  const brief=B[Math.floor(new Date(today+"T00:00:00")/864e5)%B.length];
+  const wc=brief.b.join(" ").replace(/\{\{(.+?)\|.*?\}\}/g,"$1").split(/\s+/).length;
+  const gDone=sgList.filter(g=>goals[g.id]).length;
+
+  const moveWidgetInTab=(tabId,idx,dir)=>{
+    setRawLayout(prev=>{
+      const norm=normalizeLayout(prev,tabsConfig,customTabsData);
+      const list=(norm[tabId]||[]).slice();
+      return{...norm,[tabId]:moveIdx(list,idx,dir)};
+    });
+  };
+
+  const transferWidgetToTab=(fromTabId,idx,toTabId)=>{
+    if(!toTabId||fromTabId===toTabId)return;
+    setRawLayout(prev=>{
+      const norm=normalizeLayout(prev,tabsConfig,customTabsData);
+      const src=(norm[fromTabId]||[]).slice();
+      if(idx<0||idx>=src.length)return norm;
+      const[moved]=src.splice(idx,1);
+      const dst=[...(norm[toTabId]||[]),moved];
+      return{...norm,[fromTabId]:src,[toTabId]:dst};
+    });
+  };
+
+  const duplicateWidgetInTab=(tabId,idx)=>{
+    setRawLayout(prev=>{
+      const norm=normalizeLayout(prev,tabsConfig,customTabsData);
+      const list=(norm[tabId]||[]).slice();
+      const orig=list[idx];
+      if(!orig)return norm;
+      const newId="w-copy-"+uid();
+      const copyCfg={...orig,id:newId,isClone:true,title:(orig.title||WIDGET_CATALOG.find(x=>x.type===orig.type)?.label||"Block")+" (Copy)"};
+      setWidgetData(wdPrev=>{
+        const safeWd=wdPrev&&typeof wdPrev==="object"?wdPrev:{};
+        const existingSource=safeWd[orig.id];
+        let seed={title:copyCfg.title,eyebrow:orig.eyebrow||"Custom Block",sub:orig.sub||"",items:[],groups:[]};
+        if(existingSource){
+          seed=JSON.parse(JSON.stringify(existingSource));
+        }else if(orig.type==="reminders"){
+          seed={...remMeta,title:(remMeta.title||"Strong Reminders")+" (Copy)",items:JSON.parse(JSON.stringify(reminders))};
+        }else if(orig.type==="curriculum"){
+          seed={...currMeta,title:(currMeta.title||"Curriculum")+" (Copy)",groups:JSON.parse(JSON.stringify(currList))};
+        }else if(orig.type==="sprint"){
+          seed={...sprintMeta,title:(sprintMeta.title||"Sprint")+" (Copy)",items:JSON.parse(JSON.stringify(sprint))};
+        }
+        return{...safeWd,[newId]:seed};
+      });
+      list.splice(idx+1,0,copyCfg);
+      return{...norm,[tabId]:list};
+    });
+  };
+
+  const removeWidgetFromTab=(tabId,idx)=>{
+    setRawLayout(prev=>{
+      const norm=normalizeLayout(prev,tabsConfig,customTabsData);
+      const list=(norm[tabId]||[]).filter((_,i)=>i!==idx);
+      return{...norm,[tabId]:list};
+    });
+  };
+
+  const addWidgetToTab=(tabId,type)=>{
+    const newId="w-"+uid();
+    const cat=WIDGET_CATALOG.find(x=>x.type===type);
+    const entry={id:newId,type,eyebrow:"Modular Block",title:cat?cat.label.replace(/^Custom Block:\s*/,""):"New Section"};
+    if(type==="custom_checklist"||type==="custom_notes"||type==="custom_topics"){
+      updateWidgetInstance(newId,{
+        eyebrow:type==="custom_notes"?"Principles & Notes":type==="custom_topics"?"Knowledge Base":"Checklist",
+        title:entry.title,
+        sub:"",
+        items:[],
+        groups:type==="custom_topics"?[{id:uid(),c:"Core Topics",items:["First key concept"]}]:[]
+      });
+    }
+    setRawLayout(prev=>{
+      const norm=normalizeLayout(prev,tabsConfig,customTabsData);
+      return{...norm,[tabId]:[...(norm[tabId]||[]),entry]};
+    });
+  };
+
+  const sprintWidget=h("section",{className:"card sprint"},
+    h("div",{className:"sprint-head"},
+      h("div",{className:"grow"},
+        h("div",{className:"eyebrow"},sprintMeta.eyebrow||"Primary Focus \u00b7 Active Cycle"),
+        h("h2",null,sprintMeta.title||"Sprint"),
+        sprintMeta.sub&&h("p",{className:"sprint-sub"},rich(sprintMeta.sub))
+      ),
+      h("div",{className:"sprint-ctrl"},
+        h("div",{className:"sprint-dl"},
+          h("b",null,"Deadline: "+fmtLongISO(sprintEnd)),
+          h("span",null,spDaysLeft>1?spDaysLeft+" days remaining":spDaysLeft===1?"1 day remaining":"Final day of cycle")
+        ),
+        layoutEditMode&&h("button",{className:"gear"+(spCfgOpen?" on":""),style:{marginTop:0},"aria-label":"Sprint settings","aria-expanded":spCfgOpen,title:"Sprint settings",onClick:()=>setSpCfgOpen(!spCfgOpen)},"\u22ef")
+      )
+    ),
+    layoutEditMode&&spCfgOpen&&h("div",{className:"panel",style:{marginBottom:"16px",position:"relative",zIndex:2}},
+      h("div",{className:"eyebrow"},"Sprint Cycle Settings"),
+      h("div",{className:"advrow"},
+        h("label",{className:"fl"},h("span",null,"Eyebrow"),h("input",{className:"txt",value:sprintMeta.eyebrow||"",onChange:e=>setSprintMeta({...sprintMeta,eyebrow:e.target.value})})),
+        h("label",{className:"fl"},h("span",null,"Sprint Title"),h("input",{className:"txt",value:sprintMeta.title||"",onChange:e=>setSprintMeta({...sprintMeta,title:e.target.value})})),
+        h("label",{className:"fl"},h("span",null,"Deadline Date"),h("input",{className:"txt dt",type:"date",value:sprintEnd,onChange:e=>{if(e.target.value)setSprintEnd(e.target.value)}})),
+        h("label",{className:"fl wide"},h("span",null,"Subtitle"),h("input",{className:"txt",value:sprintMeta.sub||"",onChange:e=>setSprintMeta({...sprintMeta,sub:e.target.value})}))
+      ),
+      h("div",{className:"pfoot"},
+        h("button",{className:"btn sm",onClick:()=>setSpCfgOpen(false)},"Done"),
+        h("button",{
+          type:"button",
+          className:"lnk del",
+          onClick:()=>{if(spArchiveConfirm)archiveAndRollSprint();else setSpArchiveConfirm(true)}
+        },spArchiveConfirm?"Confirm: Archive current Sprint & start new 75-day cycle?":"Archive Current Sprint & Start New Cycle")
+      )
+    ),
+    sprint.length?Bar(spDone,sprint.length):null,
+    sortedSprint.map((t,i)=>h(SprintTaskRow,{
+      key:t.id,
+      t,
+      first:i===0,
+      onToggle:()=>toggleSprintTask(t),
+      onUpdate:newT=>upsert(sprint,setSprint,newT),
+      onDelete:()=>remove(sprint,setSprint,t.id),
+      onMoveUp:i>0?()=>setSprint(moveInList(sprint,sortedSprint,t.id,-1)):null,
+      onMoveDown:i<sortedSprint.length-1?()=>setSprint(moveInList(sprint,sortedSprint,t.id,1)):null
+    })),
+    sortedSprint.length===0&&h("p",{className:"empty"},tagFlt?"No Sprint objectives match #"+tagFlt+".":"No objectives in this Sprint yet. Define your key milestones for this cycle below."),
+    h(ItemForm,{fields:SF,init:{t:""},submit:"Add",onSubmit:v=>setSprint([{id:uid(),t:v.t.trim(),done:false},...sprint])})
+  );
+
+  const remindersWidget=h(RemindersCard,{
+    eyebrow:remMeta.eyebrow,
+    title:remMeta.title,
+    sub:remMeta.sub,
+    items:reminders,
+    setItems:setReminders,
+    tagFlt,
+    setTagFlt,
+    onUpdateMeta:setRemMeta,
+    onRestoreDefaults:()=>setReminders(prev=>{
+      const cur=Array.isArray(prev)?prev:[];
+      const missing=REM_DEF.filter(d=>!cur.some(x=>x.id===d.id));
+      return missing.length?[...cur,...missing]:REM_DEF;
+    })
+  });
+
+  const archiveWidget=h(React.Fragment,null,
+    h("section",{className:"card"},
+      h("div",{className:"eyebrow"},"Historical Ledger"),
+      h("h2",null,"Sprint Archive"),
+      h("p",{className:"mute",style:{marginTop:0}},"Read-only records of your completed Sprint cycles. At the end of each deadline, all Sprint tasks are automatically transferred here and a new 75-day cycle begins.")
+    ),
+    archive.length===0?h("section",{className:"card"},
+      h("p",{className:"empty",style:{margin:0}},"No past sprints have been archived yet. Your current Sprint will automatically move here after "+fmtLongISO(sprintEnd)+".")
+    ):archive.map((entry,idx)=>h(ArchiveCard,{
+      key:entry.id||idx,
+      entry,
+      today,
+      onDelete:()=>setArchive(archive.filter((_,i)=>i!==idx)),
+      onUpdateTitle:newTitle=>setArchive(archive.map((x,i)=>i===idx?{...x,title:newTitle}:x))
+    }))
+  );
+
+  const safeLt=ltData&&typeof ltData==="object"?ltData:LT;
+  const ltPillars=Array.isArray(safeLt.p)?safeLt.p:LT.p;
+
+  const longGoalCard=h("section",{className:"card"},
+    h("div",{className:"card-head"},
+      h("div",{className:"grow"},
+        h("div",{className:"eyebrow"},safeLt.eyebrow||"Long-term goals"),
+        h("h2",null,safeLt.title||"Premium menswear for the Muslim world")
+      ),
+      layoutEditMode&&h("button",{className:"gear"+(ltCfgOpen?" on":""),"aria-label":"Edit long-term goals",onClick:()=>setLtCfgOpen(!ltCfgOpen)},"\u22ef")
+    ),
+    layoutEditMode&&ltCfgOpen&&h("div",{className:"panel",style:{marginBottom:"12px"}},
+      h("div",{className:"eyebrow"},"Customize Long-Term Vision"),
+      h("div",{className:"advrow"},
+        h("label",{className:"fl"},h("span",null,"Eyebrow"),h("input",{className:"txt",value:safeLt.eyebrow||"Long-term goals",onChange:e=>setLtData({...safeLt,eyebrow:e.target.value})})),
+        h("label",{className:"fl"},h("span",null,"Title"),h("input",{className:"txt",value:safeLt.title||"Premium menswear for the Muslim world",onChange:e=>setLtData({...safeLt,title:e.target.value})})),
+        h("label",{className:"fl wide"},h("span",null,"Intro"),h("input",{className:"txt",value:safeLt.intro||"",onChange:e=>setLtData({...safeLt,intro:e.target.value})})),
+        h("label",{className:"fl wide"},h("span",null,"Quote"),h("input",{className:"txt",value:safeLt.q||"",onChange:e=>setLtData({...safeLt,q:e.target.value})})),
+        h("label",{className:"fl wide"},h("span",null,"Ultimate Mission"),h("input",{className:"txt",value:safeLt.m||"",onChange:e=>setLtData({...safeLt,m:e.target.value})}))
+      ),
+      h("div",{style:{marginTop:"10px"}},
+        h("div",{className:"eyebrow"},"Pillars"),
+        ltPillars.map((p,idx)=>h("div",{key:idx,className:"ws-item",style:{marginBottom:"6px"}},
+          h("input",{className:"txt",style:{flex:"1 1 130px"},value:p[0]||"",placeholder:"Pillar title",onChange:e=>{const n=ltPillars.slice();n[idx]=[e.target.value,p[1]];setLtData({...safeLt,p:n})}}),
+          h("input",{className:"txt",style:{flex:"2 1 220px"},value:p[1]||"",placeholder:"Description",onChange:e=>{const n=ltPillars.slice();n[idx]=[p[0],e.target.value];setLtData({...safeLt,p:n})}}),
+          idx>0&&h("button",{className:"lnk",onClick:()=>setLtData({...safeLt,p:moveIdx(ltPillars,idx,-1)})},"\u2191"),
+          idx<ltPillars.length-1&&h("button",{className:"lnk",onClick:()=>setLtData({...safeLt,p:moveIdx(ltPillars,idx,1)})},"\u2193"),
+          h("button",{className:"lnk del",onClick:()=>setLtData({...safeLt,p:ltPillars.filter((_,j)=>j!==idx)})},"\u00d7")
+        )),
+        h(ItemForm,{
+          fields:[{k:"t",ph:"New pillar title\u2026",label:"Pillar"},{k:"d",ph:"Pillar details\u2026",label:"Details",adv:true}],
+          init:{t:"",d:""},
+          submit:"Add Pillar",
+          onSubmit:v=>setLtData({...safeLt,p:[...ltPillars,[v.t.trim(),(v.d||"").trim()]]})
+        })
+      ),
+      h("div",{className:"pfoot"},
+        h("button",{className:"btn sm",onClick:()=>setLtCfgOpen(false)},"Done"),
+        h("button",{className:"lnk",onClick:()=>setLtData(LT)},"Restore Defaults")
+      )
+    ),
+    h("p",{style:{margin:0}},rich(safeLt.intro)),
+    h("div",{className:"grid"},ltPillars.map((p,i)=>h("div",{key:i,className:"pr"},h("b",null,p[0]),rich(p[1])))),
+    safeLt.q&&h("blockquote",{className:"quote"},rich(safeLt.q)),
+    safeLt.m&&h("p",{style:{margin:0}},rich(safeLt.m))
+  );
+
+  const shortGoalCard=h("section",{className:"card"},
+    h("div",{className:"eyebrow"},"Short-term goals"),
+    sgList.length?Bar(gDone,sgList.length):null,
+    sgList.map((g,i)=>{
+      const on=!!goals[g.id];
+      let when="";
+      if(g.due&&!on){
+        const n=dayDiff(g.due,today);
+        when=n>0?"in "+n+(n>1?" days":" day"):n===0?"due today":Math.abs(n)+" day(s) overdue";
+      }
+      const meta=[g.label||(g.due?fmtISO(g.due):""),when].filter(Boolean).join(" \u00b7 ");
+      return h(Row,{
+        key:g.id,
+        first:i===0,
+        done:on,
+        onToggle:()=>setGoals(prev=>({...prev,[g.id]:!on})),
+        onDelete:()=>remove(sgList,setSg,g.id),
+        onMoveUp:i>0?()=>setSg(moveIdx(sgList,i,-1)):null,
+        onMoveDown:i<sgList.length-1?()=>setSg(moveIdx(sgList,i,1)):null,
+        info:meta?h("div",{className:"date",style:{margin:"0 0 8px"}},meta):null,
+        form:close=>h(ItemForm,{fields:GF,init:{t:g.t,label:g.label||"",due:g.due||""},submit:"Save",onCancel:close,onSubmit:v=>{upsert(sgList,setSg,{...g,t:v.t.trim(),label:v.label.trim(),due:v.due});close()}})
+      },rich(g.t));
+    }),
+    sgList.length===0&&h("p",{className:"empty"},"No short-term goals yet. Add one below."),
+    h(ItemForm,{fields:GF,init:{t:"",label:"",due:""},submit:"Add goal",onSubmit:v=>upsert(sgList,setSg,{id:uid(),t:v.t.trim(),label:v.label.trim(),due:v.due})}),
+    restore(SG,sgList,setSg)
+  );
+
+  const minimumWidget=h("section",{className:"card"},
+    h("div",{className:"eyebrow"},"The MINIMUM list"),
+    h("h2",null,NT===0?"Build your daily minimum":NT===1?"Do this one, whatever happens":"Do these "+(NW[NT]||NT)+", whatever happens"),
+    h("p",{className:"mute",style:{marginTop:0}},"Small steps, every day. The list resets each morning."),
+    NT?Bar(dCount,NT):null,
+    dtList.map((t,i)=>h(Row,{
+      key:t.id,
+      first:i===0,
+      done:!!dm[t.id],
+      locked:!!t.quiz,
+      onToggle:()=>setTask(t.id,!dm[t.id]),
+      onDelete:()=>remove(dtList,setDt,t.id),
+      onMoveUp:i>0?()=>setDt(moveIdx(dtList,i,-1)):null,
+      onMoveDown:i<dtList.length-1?()=>setDt(moveIdx(dtList,i,1)):null,
+      form:close=>h(ItemForm,{fields:DF,init:{t:t.t},submit:"Save",onCancel:close,onSubmit:v=>{upsert(dtList,setDt,{...t,t:v.t.trim()});close()}})
+    },rich(t.t))),
+    NT===0&&h("p",{className:"empty"},"No daily tasks yet. Add your first one below."),
+    h(ItemForm,{fields:DF,init:{t:""},submit:"Add",onSubmit:v=>upsert(dtList,setDt,{id:uid(),t:v.t.trim()})}),
+    restore(DT,dtList,setDt)
+  );
+
+  const todayTasksWidget=h("section",{className:"card today"},
+    h("div",{className:"eyebrow"},now.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"})),
+    h("h2",null,"Today\u2019s List"),
+    h("p",{className:"mute",style:{marginTop:0}},rich("Tasks with today\u2019s date. {{High-priority|высокий приоритет}} tasks (!) stay at the top.")),
+    tagFilterUI,
+    tList.length?Bar(tDone,tList.length):null,
+    tList.length?tList.map((t,i)=>renderTaskRow(t,i,tList)):h("p",{className:"empty"},"Nothing planned for today. Add a task below."),
+    addForm(today,"Add a task for today\u2026")
+  );
+
+  const morningBriefWidget=h("section",{className:"card"},
+    h("div",{className:"eyebrow"},"Morning Brief \u00b7 "+brief.c+" \u00b7 "+wc+" words"),
+    h("h3",null,brief.t),
+    h("p",{className:"mute",style:{margin:"4px 0 0"}},"Tip: highlight a word to see its translation. Your sentence will be saved for Anki."),
+    h(Reader,{key:"reader-"+brief.t,paras:brief.b,onAdd:addAnki}),
+    h(Quiz,{key:"quiz-"+today+"-"+brief.t,items:brief.q,solved:!!dm.brief,onSolved:()=>setTask("brief",true)})
+  );
+
+  const ankiExportWidget=h(AnkiExport,{items:anki,onClear:()=>setAnki([])});
+
+  const safeCurr=Array.isArray(currList)?currList:CURRICULUM;
+  const curriculumWidget=h("section",{className:"card"},
+    h("div",{className:"card-head"},
+      h("div",{className:"grow"},
+        h("div",{className:"eyebrow"},currMeta.eyebrow||"Curriculum Topics"),
+        h("h2",null,currMeta.title||"Master Concept Rotation"),
+        currMeta.sub&&h("p",{className:"mute",style:{marginTop:0}},rich(currMeta.sub))
+      ),
+      layoutEditMode&&h("button",{className:"gear"+(currCfgOpen?" on":""),"aria-label":"Curriculum options",onClick:()=>setCurrCfgOpen(!currCfgOpen)},"\u22ef")
+    ),
+    layoutEditMode&&currCfgOpen&&h("div",{className:"panel",style:{marginBottom:"12px"}},
+      h("div",{className:"eyebrow"},"Customize Curriculum"),
+      h("div",{className:"advrow"},
+        h("label",{className:"fl"},h("span",null,"Eyebrow"),h("input",{className:"txt",value:currMeta.eyebrow||"",onChange:e=>setCurrMeta({...currMeta,eyebrow:e.target.value})})),
+        h("label",{className:"fl"},h("span",null,"Title"),h("input",{className:"txt",value:currMeta.title||"",onChange:e=>setCurrMeta({...currMeta,title:e.target.value})})),
+        h("label",{className:"fl wide"},h("span",null,"Subtitle"),h("input",{className:"txt",value:currMeta.sub||"",onChange:e=>setCurrMeta({...currMeta,sub:e.target.value})}))
+      ),
+      h("div",{style:{marginTop:"10px"}},
+        h(ItemForm,{
+          fields:[{k:"c",ph:"New category name\u2026",label:"Category"}],
+          init:{c:""},
+          submit:"Add Category",
+          onSubmit:v=>setCurrList([...safeCurr,{id:uid(),c:v.c.trim(),items:[]}])
+        })
+      ),
+      h("div",{className:"pfoot"},
+        h("button",{className:"btn sm",onClick:()=>setCurrCfgOpen(false)},"Done"),
+        h("button",{className:"lnk",onClick:()=>setCurrList(CURRICULUM)},"Restore Default Curriculum")
+      )
+    ),
+    safeCurr.map((cat,i)=>h(TopicGroupBlock,{
+      key:cat.id||cat.c||i,
+      group:cat,
+      onUpdate:nextCat=>setCurrList(safeCurr.map((x,idx)=>idx===i?nextCat:x)),
+      onDelete:()=>setCurrList(safeCurr.filter((_,idx)=>idx!==i)),
+      onMoveUp:i>0?()=>setCurrList(moveIdx(safeCurr,i,-1)):null,
+      onMoveDown:i<safeCurr.length-1?()=>setCurrList(moveIdx(safeCurr,i,1)):null
+    }))
+  );
+
+  const insights=h("section",{className:"card"},
+    h("div",{className:"eyebrow"},"Investment Insights \u00b7 Finance"),
+    h("h3",null,"Investment Insights: Building Wealth"),
+    h("div",{className:"paras ins"},
+      h("h4",null,"1. The strategy: Dollar Cost Averaging"),
+      h("p",null,rich("The strategy is called {{Dollar Cost Averaging|усреднение стоимости (DCA)|Стратегия: вкладывать одну и ту же сумму регулярно, не думая о цене.}} (DCA). You invest the same amount at regular times: $75 on the 1st and $75 on the 15th of every month. You do not try to guess the best day to buy. When prices are low, your $75 buys more shares. When prices are high, it buys fewer. Over time, this {{smooths out|сглаживает|Делает менее резким.}} the price you pay and removes the stress of {{market timing|угадывание момента на рынке|Попытки купить на минимуме и продать на максимуме.}}.")),
+      h("p",null,rich("The real power comes from {{compound growth|сложный рост|Доход приносит новый доход.}}: the returns you earn start to earn returns too. For example, $75 twice a month is $150 a month, or $54,000 of your own money in 30 years. If the investment grew by an assumed 7% a year, it could be worth about $180,000. Returns are never guaranteed, and prices can fall for years, so the habit only works if you stay {{consistent|последовательный|Регулярный, без больших перерывов.}} in good months and bad months.")),
+      h("h4",null,"2. The S&P 500 and ETFs"),
+      h("p",null,rich("An {{ETF|биржевой фонд|Фонд, которым торгуют на бирже, как обычной акцией.}} is a fund you can buy like a single share, and many ETFs follow an index. The {{S&P 500|индекс S&P 500|Список 500 крупных компаний США.}} is an index of about 500 large US companies, so one purchase gives you a small piece of many businesses across the US economy. The most famous fund that tracks it is VOO, with an {{expense ratio|коэффициент расходов|Ежегодная плата фонда в процентах от ваших денег.}} of about 0.03% a year. Most brokers let you buy {{fractional shares|дробные акции|Часть акции, купленная на заданную сумму.}}, so you can invest exactly $75 each time.")),
+      h("h4",null,"3. Halal ETFs: an important note"),
+      h("div",{className:"note"},
+        h("p",null,rich("VOO tracks the S&P 500 well, but it is not {{Sharia-compliant|соответствующий шариату|Допустимый по исламским правилам.}}. The index includes conventional banks and other lenders whose business is built on {{riba|риба|Процент по займу; запрещён в исламе.}} (interest), and companies in prohibited industries such as alcohol, tobacco, and gambling.")),
+        h("p",null,rich("This is why your task uses a halal alternative. Two well-known US examples are {{SPUS|SPUS (фонд)|ETF от SP Funds на основе S&P 500 с исключениями по нормам шариата.}}, the SP Funds S&P 500 Sharia Industry Exclusions ETF, and {{HLAL|HLAL (фонд)|ETF от Wahed на основе индекса FTSE USA Shariah.}}, the Wahed FTSE USA Shariah ETF. Both remove prohibited businesses and also check financial ratios, such as the level of debt. HLAL also publishes a quarterly dividend {{purification|очищение дохода|Отдача небольшой части дохода на благотворительность, если он мог прийти из недопустимых источников.}} figure.")),
+        h("p",null,rich("Compare the trade-offs before you choose. SPUS costs about 0.45% a year and HLAL about 0.50%, compared with about 0.03% for VOO. Each holds roughly 200 companies instead of 500, and both are {{heavily weighted|с большой долей|Имеют очень большую долю в одной отрасли.}} toward technology stocks. Scholars and screening boards also use different rules, so ask a trusted scholar which standard you accept."))
+      )
+    ),
+    h("p",{className:"mute disc"},"General education only, not personal financial advice. All investments can lose money. Fund fees and holdings change, so check each fund provider\u2019s website before you buy. Figures checked in October 2026.")
+  );
+
+  const recurringAlertsWidget=h(React.Fragment,null,
+    regList.filter(t=>period(t,now).key===today).sort((a,b)=>(RK[a.f]??3)-(RK[b.f]??3)).map((t,i)=>{
+      const p=period(t,now);
+      return h(Alert,{key:t.id,soft:i>0,ico:t.ico||"!",title:t.bt||"Due today",text:t.al||("Reminder: "+plainOf(t.t)+" is due today."),done:rIs(t,p),doneText:"Done for today. Well done!",onDone:()=>rSet(t,p,true)});
+    })
+  );
+
+  const recurringTasksWidget=h("section",{className:"card"},
+    h("div",{className:"eyebrow"},"Recurring tasks"),
+    h("p",{className:"mute",style:{marginTop:0}},"Tasks that repeat every week or month. Each one resets by itself."),
+    regList.map((t,i)=>{
+      const p=period(t,now),on=rIs(t,p),n=dayDiff(dkey(p.nx),today);
+      const isDueToday=p.key===today&&!on;
+      const verb=/report/i.test(t.t)?"to report":"to complete";
+      const cdClass="reg-cd"+(on?" done":(isDueToday||n<=1?" urgent":""));
+      const cdText=on
+        ?"\u2713 Completed for "+fmtD(p.st)+" \u00b7 \u23f3 "+n+(n===1?" day":" days")+" until next ("+fmtD(p.nx)+")"
+        :isDueToday
+          ?"\ud83d\udea8 Due today ("+fmtD(p.st)+")"
+          :"\u23f3 "+(n===1?"1 day left ":n+" days left ")+verb+" \u00b7 Due "+fmtD(p.nx);
+      const status=on?"Done for "+fmtD(p.st)+" \u00b7 next: "+fmtD(p.nx)+" ("+(n===1?"tomorrow":"in "+n+" days")+")":(p.key===today?"Due today":"Due "+fmtD(p.st)+" \u00b7 not done yet");
+      return h(Row,{
+        key:t.id,
+        first:i===0,
+        done:on,
+        onToggle:()=>rSet(t,p,!on),
+        onDelete:()=>remove(regList,setReg,t.id),
+        onMoveUp:i>0?()=>setReg(moveIdx(regList,i,-1)):null,
+        onMoveDown:i<regList.length-1?()=>setReg(moveIdx(regList,i,1)):null,
+        info:h("div",{className:"date",style:{margin:"0 0 8px"}},freqLabel(t)+" \u00b7 "+status),
+        form:close=>h(ItemForm,{fields:RF,init:regInit(t),valid:regValid,submit:"Save",onCancel:close,onSubmit:v=>{upsert(regList,setReg,toReg(v,t));close()}})
+      },
+        h("div",null,
+          h("div",null,rich(t.t)),
+          h("div",{className:"reg-meta"},
+            h("span",{className:cdClass},cdText),
+            h("span",{className:"reg-freq"},freqLabel(t))
+          )
+        )
+      );
+    }),
+    regList.length===0&&h("p",{className:"empty"},"No recurring tasks yet. Add one below."),
+    h(ItemForm,{fields:RF,init:regInit(),valid:regValid,submit:"Add task",onSubmit:v=>upsert(regList,setReg,toReg(v))}),
+    restore(REG,regList,setReg)
+  );
+
+  const safeLv=lvData&&typeof lvData==="object"&&Array.isArray(lvData.m)?lvData:LV;
+  const lvMods=safeLv.m;
+  const lvm=lp.lvmh2||lvMods.map((_,i)=>i===0&&!!(lp.lvmh&&lp.lvmh[0]));
+  const lvN=lvMods.filter((_,i)=>lvm[i]).length,lvT=lvMods.length;
+  const lvd=dayDiff(safeLv.d||"2026-10-12",today),dl=dayDiff(safeLv.due||"2026-12-15",today);
+  const lvToggle=i=>setLp(prev=>({...prev,lvmh2:lvMods.map((_,j)=>j===i?!lvm[i]:!!lvm[j])}));
+  const lvSub=lvN===lvT?"All "+(NW[lvT]||lvT)+" modules complete. Well done!":(dl>1?dl+" days left":dl===1?"1 day left":dl===0?"due today":"deadline passed")+" \u00b7 "+(lvd>1?"starts in "+lvd+" days":lvd===1?"starts tomorrow":lvd===0?"starts today":"in progress");
+
+  const lvRows=lvMods.map((m,i)=>{
+    const n=m.u?dayDiff(m.u,today):0,locked=n>0;
+    return h(Row,{
+      key:i,
+      first:i===0,
+      done:!!lvm[i],
+      onToggle:()=>lvToggle(i),
+      onDelete:()=>{
+        const nextM=lvMods.filter((_,idx)=>idx!==i);
+        const nextChecks=lvm.filter((_,idx)=>idx!==i);
+        setLvData({...safeLv,m:nextM});
+        setLp(prev=>({...prev,lvmh2:nextChecks}));
+      },
+      onMoveUp:i>0?()=>{
+        setLvData({...safeLv,m:moveIdx(lvMods,i,-1)});
+        setLp(prev=>({...prev,lvmh2:moveIdx(lvMods.map((_,j)=>!!lvm[j]),i,-1)}));
+      }:null,
+      onMoveDown:i<lvMods.length-1?()=>{
+        setLvData({...safeLv,m:moveIdx(lvMods,i,1)});
+        setLp(prev=>({...prev,lvmh2:moveIdx(lvMods.map((_,j)=>!!lvm[j]),i,1)}));
+      }:null,
+      form:close=>h(ItemForm,{
+        fields:[{k:"t",ph:"Module title\u2026",label:"Module"},{k:"u",type:"date",label:"Unlock date (optional)",adv:true}],
+        init:{t:m.t,u:m.u||""},
+        submit:"Save",
+        onCancel:close,
+        onSubmit:v=>{
+          const nextM=lvMods.map((x,idx)=>idx===i?{t:v.t.trim(),...(v.u?{u:v.u}:{})}:x);
+          setLvData({...safeLv,m:nextM});
+          close();
+        }
+      })
+    },
+      h("div",null,
+        h("div",{className:"t"},rich(m.t)),
+        !lvm[i]&&h("div",{className:"date "+(locked?"lock":"open")},locked?"Unlocks "+fmtD(new Date(m.u+"T00:00:00"))+" \u00b7 "+(n===1?"tomorrow":"in "+n+" days"):"Available now")
+      )
+    );
+  });
+
+  const safeCourses=Array.isArray(lpCourses)?lpCourses:L;
+  const safeTl=Array.isArray(tlData)?tlData:TL;
+
+  const lvmhWidget=h("section",{className:"card feature"},
+    h("div",{className:"card-head"},
+      h("div",{className:"grow"},
+        h("div",{className:"eyebrow"},safeLv.eyebrow||("Featured course \u00b7 Starts "+fmtD(new Date((safeLv.d||"2026-10-12")+"T00:00:00")))),
+        h("h2",null,rich(safeLv.title||"Inside LVMH {{Certificate|сертификат|Документ об окончании курса.}}")),
+        h("p",{className:"mute lvsub",style:{margin:"0 0 4px"}},h("b",null,"Deadline: "+fmtD(new Date((safeLv.due||"2026-12-15")+"T00:00:00")))," \u00b7 "+lvSub)
+      ),
+      layoutEditMode&&h("button",{className:"gear"+(lvCfgOpen?" on":""),"aria-label":"Featured course settings",onClick:()=>setLvCfgOpen(!lvCfgOpen)},"\u22ef")
+    ),
+    layoutEditMode&&lvCfgOpen&&h("div",{className:"panel",style:{marginBottom:"12px"}},
+      h("div",{className:"eyebrow",style:{color:"var(--gold)"}},"Edit Featured Course"),
+      h("div",{className:"advrow"},
+        h("label",{className:"fl"},h("span",null,"Eyebrow"),h("input",{className:"txt",value:safeLv.eyebrow||"",placeholder:"Featured course",onChange:e=>setLvData({...safeLv,eyebrow:e.target.value})})),
+        h("label",{className:"fl"},h("span",null,"Title"),h("input",{className:"txt",value:safeLv.title||"Inside LVMH {{Certificate|сертификат|Документ об окончании курса.}}",onChange:e=>setLvData({...safeLv,title:e.target.value})})),
+        h("label",{className:"fl"},h("span",null,"Start Date"),h("input",{className:"txt dt",type:"date",value:safeLv.d||"2026-10-12",onChange:e=>setLvData({...safeLv,d:e.target.value})})),
+        h("label",{className:"fl"},h("span",null,"Deadline Date"),h("input",{className:"txt dt",type:"date",value:safeLv.due||"2026-12-15",onChange:e=>setLvData({...safeLv,due:e.target.value})}))
+      ),
+      h("div",{style:{marginTop:"10px"}},
+        h(ItemForm,{
+          fields:[{k:"t",ph:"Add new module\u2026",label:"Module"},{k:"u",type:"date",label:"Unlock date",adv:true}],
+          init:{t:"",u:""},
+          submit:"Add Module",
+          onSubmit:v=>setLvData({...safeLv,m:[...lvMods,{t:v.t.trim(),...(v.u?{u:v.u}:{})} ]})
+        })
+      ),
+      h("div",{className:"pfoot"},
+        h("button",{className:"btn sm",onClick:()=>setLvCfgOpen(false)},"Done"),
+        h("button",{className:"lnk",onClick:()=>setLvData(LV)},"Restore Default Course")
+      )
+    ),
+    Bar(lvN,lvT),
+    lvRows
+  );
+
+  const learningTracksWidget=h(React.Fragment,null,
+    safeCourses.map((t,idx)=>{
+      const ms=lp[t.id]||[];
+      return h(EditableCourseCard,{
+        key:t.id||idx,
+        course:t,
+        ms,
+        onToggleMilestone:i=>{
+          const n=t.m.map((_,j)=>j===i?!ms[i]:!!ms[j]);
+          setLp(prev=>({...prev,[t.id]:n}));
+        },
+        onUpdateCourse:(nextC,nextMs)=>{
+          setLpCourses(safeCourses.map((x,j)=>j===idx?nextC:x));
+          if(nextMs)setLp(prev=>({...prev,[t.id]:nextMs}));
+        },
+        onDeleteCourse:()=>setLpCourses(safeCourses.filter((_,j)=>j!==idx)),
+        onMoveUp:idx>0?()=>setLpCourses(moveIdx(safeCourses,idx,-1)):null,
+        onMoveDown:idx<safeCourses.length-1?()=>setLpCourses(moveIdx(safeCourses,idx,1)):null
+      });
+    }),
+    layoutEditMode&&(!addingCourse?h("div",{className:"sec-bar"},
+      h("button",{type:"button",className:"sec-btn",onClick:()=>setAddingCourse(true)},"+ Add Learning Track"),
+      safeCourses.length<L.length&&h("button",{type:"button",className:"sec-btn",onClick:()=>setLpCourses(L)},"Restore Default Tracks")
+    ):h("section",{className:"card"},
+      h("div",{className:"eyebrow"},"New Learning Track"),
+      h("div",{className:"advrow"},
+        h("label",{className:"fl"},h("span",null,"Track Name"),h("input",{className:"txt",placeholder:"e.g. Rhetoric & Persuasion",value:newCourse.n,onChange:e=>setNewCourse({...newCourse,n:e.target.value})})),
+        h("label",{className:"fl wide"},h("span",null,"Why it matters"),h("input",{className:"txt",placeholder:"Core reason for studying this track\u2026",value:newCourse.why,onChange:e=>setNewCourse({...newCourse,why:e.target.value})}))
+      ),
+      h("div",{className:"addrow",style:{marginTop:"12px",marginBottom:0}},
+        h("button",{className:"btn sm",onClick:()=>{
+          if(!newCourse.n.trim())return;
+          setLpCourses([...safeCourses,{id:"tr-"+uid(),n:newCourse.n.trim(),why:newCourse.why.trim(),m:[]}]);
+          setNewCourse({n:"",why:""});
+          setAddingCourse(false);
+        }},"Add Track"),
+        h("button",{className:"btn sm ghost",onClick:()=>setAddingCourse(false)},"Cancel")
+      )
+    ))
+  );
+
+  const trajectoryWidget=h("section",{className:"card"},
+    h("div",{className:"card-head"},
+      h("div",{className:"grow"},
+        h("div",{className:"eyebrow"},"Your trajectory")
+      ),
+      layoutEditMode&&h("button",{className:"gear"+(tlCfgOpen?" on":""),"aria-label":"Edit trajectory",onClick:()=>setTlCfgOpen(!tlCfgOpen)},"\u22ef")
+    ),
+    layoutEditMode&&tlCfgOpen&&h("div",{className:"panel",style:{marginBottom:"12px"}},
+      h("div",{className:"eyebrow"},"Edit Trajectory Milestones"),
+      safeTl.map((s,idx)=>h("div",{key:idx,className:"ws-item",style:{marginBottom:"6px"}},
+        h("input",{className:"txt",style:{flex:"1 1 110px"},value:s[0]||"",placeholder:"Horizon",onChange:e=>{const n=safeTl.slice();n[idx]=[e.target.value,s[1]];setTlData(n)}}),
+        h("input",{className:"txt",style:{flex:"2 1 220px"},value:s[1]||"",placeholder:"Milestone",onChange:e=>{const n=safeTl.slice();n[idx]=[s[0],e.target.value];setTlData(n)}}),
+        idx>0&&h("button",{className:"lnk",onClick:()=>setTlData(moveIdx(safeTl,idx,-1))},"\u2191"),
+        idx<safeTl.length-1&&h("button",{className:"lnk",onClick:()=>setTlData(moveIdx(safeTl,idx,1))},"\u2193"),
+        h("button",{className:"lnk del",onClick:()=>setTlData(safeTl.filter((_,j)=>j!==idx))},"\u00d7")
+      )),
+      h(ItemForm,{
+        fields:[{k:"w",ph:"Timeframe (e.g. In 5 years)\u2026",label:"Timeframe"},{k:"d",ph:"Milestone description\u2026",label:"Description",adv:true}],
+        init:{w:"",d:""},
+        submit:"Add Step",
+        onSubmit:v=>setTlData([...safeTl,[v.w.trim(),(v.d||"").trim()]])
+      }),
+      h("div",{className:"pfoot"},
+        h("button",{className:"btn sm",onClick:()=>setTlCfgOpen(false)},"Done"),
+        h("button",{className:"lnk",onClick:()=>setTlData(TL)},"Restore Defaults")
+      )
+    ),
+    h("div",{className:"tl"},safeTl.map((s,i)=>h("div",{key:i,className:"step"},h("b",null,s[0]),h("span",null,rich(s[1])))))
+  );
+
+  const allTasksWidget=h("section",{className:"card"},
+    h("div",{className:"eyebrow"},"Task manager"),
+    h("h2",null,"All Tasks"),
+    h("p",{className:"mute",style:{marginTop:0}},rich("{{Schedule|запланировать}} tasks for future dates. High-priority tasks (!) always stay at the top.")),
+    addForm("","New task\u2026"),
+    tagFilterUI,
+    h("div",{className:"chips"},[["open","Open"],["done","Done"],["all","All"]].map(f=>{
+      const count=todos.filter(t=>{
+        const sMatch=f==="all"||(f==="done")===!!t.done;
+        const tMatch=!tagFlt||extractTags(t).includes(tagFlt.toLowerCase());
+        return sMatch&&tMatch;
+      }).length;
+      return h("button",{key:f[0],className:"chip"+(flt===f[0]?" on":""),onClick:()=>setFlt(f[0])},f[1]+" ("+count+")");
+    })),
+    (()=>{const l=sortTaskManual(inFlt(flt));return l.length?l.map((t,i)=>renderTaskRow(t,i,l)):h("p",{className:"empty"},"No tasks here yet.")})()
+  );
+
+  const renderWidgetInstance=(w,tabId,idx,total)=>{
+    const wStore=(widgetData&&widgetData[w.id])||{};
+    const legacySec=w.legacyTabId&&customTabsData&&Array.isArray(customTabsData[w.legacyTabId])
+      ?customTabsData[w.legacyTabId].find(s=>s.id===w.legacySecId)
+      :null;
+    const secData={
+      id:w.id,
+      eyebrow:wStore.eyebrow!==undefined?wStore.eyebrow:(legacySec?.eyebrow||w.eyebrow||"Section"),
+      title:wStore.title!==undefined?wStore.title:(legacySec?.title||w.title||"Custom Block"),
+      sub:wStore.sub!==undefined?wStore.sub:(legacySec?.sub||w.sub||""),
+      items:Array.isArray(wStore.items)?wStore.items:(Array.isArray(legacySec?.items)?legacySec.items:[]),
+      groups:Array.isArray(wStore.groups)?wStore.groups:(Array.isArray(legacySec?.groups)?legacySec.groups:[])
+    };
+
+    const upFn=idx>0?()=>moveWidgetInTab(tabId,idx,-1):null;
+    const downFn=idx<total-1?()=>moveWidgetInTab(tabId,idx,1):null;
+    const delFn=total>1?()=>removeWidgetFromTab(tabId,idx):null;
+
+    if(w.type==="custom_notes"||(w.type==="reminders"&&w.isClone)){
+      return h(RemindersCard,{
+        eyebrow:secData.eyebrow,
+        title:secData.title,
+        sub:secData.sub,
+        items:secData.items,
+        setItems:nextItems=>updateWidgetInstance(w.id,{...secData,items:nextItems}),
+        tagFlt,
+        setTagFlt,
+        onUpdateMeta:m=>updateWidgetInstance(w.id,{...secData,...m}),
+        onMoveSectionUp:upFn,
+        onMoveSectionDown:downFn,
+        onDeleteSection:delFn
+      });
+    }
+    if(w.type==="custom_topics"||(w.type==="curriculum"&&w.isClone)){
+      return h(CustomTopicsCard,{
+        sec:secData,
+        onUpdateSec:nextS=>updateWidgetInstance(w.id,nextS),
+        onMoveSectionUp:upFn,
+        onMoveSectionDown:downFn,
+        onDeleteSection:delFn
+      });
+    }
+    if(w.type==="custom_checklist"||(w.type==="sprint"&&w.isClone)){
+      return h(CustomChecklistCard,{
+        sec:secData,
+        onUpdateSec:nextS=>updateWidgetInstance(w.id,nextS),
+        onMoveSectionUp:upFn,
+        onMoveSectionDown:downFn,
+        onDeleteSection:delFn
+      });
+    }
+
+    switch(w.type){
+      case "sprint":return sprintWidget;
+      case "minimum":return minimumWidget;
+      case "today_tasks":return todayTasksWidget;
+      case "morning_brief":return morningBriefWidget;
+      case "anki_export":return ankiExportWidget;
+      case "recurring_alerts":return recurringAlertsWidget;
+      case "recurring":return recurringTasksWidget;
+      case "insights":return insights;
+      case "all_tasks":return allTasksWidget;
+      case "reminders":return remindersWidget;
+      case "curriculum":return curriculumWidget;
+      case "lvmh_course":return lvmhWidget;
+      case "learning_tracks":return learningTracksWidget;
+      case "trajectory":return trajectoryWidget;
+      case "long_goal":return longGoalCard;
+      case "short_goals":return shortGoalCard;
+      case "archive":return archiveWidget;
+      default:return h(CustomChecklistCard,{
+        sec:secData,
+        onUpdateSec:nextS=>updateWidgetInstance(w.id,nextS),
+        onMoveSectionUp:upFn,
+        onMoveSectionDown:downFn,
+        onDeleteSection:delFn
+      });
+    }
+  };
+
+  const activeTabObj=tabsConfig.find(t=>t.id===tab)||visibleTabs[0]||DEFAULT_TABS[0];
+  const activeWidgets=layoutConfig[activeTabObj.id]||[];
+
+  const renderActiveTab=()=>h(React.Fragment,null,
+    tagFlt&&h("div",{className:"layout-banner"},
+      h("div",null,
+        h("b",null,"Active Tag Filter"),
+        h("span",{style:{fontSize:"13.5px"}},"Showing items tagged with #"+tagFlt)
+      ),
+      h("button",{type:"button",className:"btn sm ghost",style:{marginTop:0},onClick:()=>setTagFlt("")},"Clear Filter \u00d7")
+    ),
+    layoutEditMode&&h("div",{className:"layout-banner"},
+      h("div",null,
+        h("b",null,"Edit Layout & Customization Active"),
+        h("span",{style:{fontSize:"13.5px"}},"Use \u22ef on any card or row to edit/reorder items, or use the widget bars below to rearrange blocks.")
+      ),
+      h("div",{className:"pacts"},
+        h("button",{type:"button",className:"btn sm ghost",style:{marginTop:0},onClick:()=>setRawLayout(DEFAULT_LAYOUT)},"Reset Default Layout"),
+        h("button",{type:"button",className:"btn sm",style:{marginTop:0},onClick:()=>setLayoutEditMode(false)},"Done Editing")
+      )
+    ),
+    activeWidgets.length===0&&h("section",{className:"card"},
+      h("p",{className:"empty",style:{margin:0}},"This tab has no widgets yet. Enable Edit Layout in \u2699 to add blocks.")
+    ),
+    activeWidgets.map((w,idx)=>h(WidgetShell,{
+      key:w.id||idx,
+      widget:w,
+      tabId:activeTabObj.id,
+      idx,
+      total:activeWidgets.length,
+      tabs:tabsConfig,
+      editMode:layoutEditMode,
+      onMoveWidget:moveWidgetInTab,
+      onTransferWidget:transferWidgetToTab,
+      onDuplicateWidget:duplicateWidgetInTab,
+      onRemoveWidget:removeWidgetFromTab
+    },renderWidgetInstance(w,activeTabObj.id,idx,activeWidgets.length))),
+    layoutEditMode&&h("section",{className:"card",style:{borderStyle:"dashed"}},
+      h("div",{className:"eyebrow"},"Add Widget Block to "+activeTabObj.title),
+      h("div",{className:"addrow",style:{marginBottom:0}},
+        h("select",{
+          className:"txt sel",
+          style:{flex:"1 1 240px"},
+          value:addWidgetType,
+          "aria-label":"Select widget type to add",
+          onChange:e=>setAddWidgetType(e.target.value)
+        },WIDGET_CATALOG.map(w=>h("option",{key:w.type,value:w.type},w.label))),
+        h("button",{type:"button",className:"btn",onClick:()=>addWidgetToTab(activeTabObj.id,addWidgetType)},"+ Add Widget Block")
+      )
+    )
+  );
+
+  const pendingDirtyCount=store.getDirty().length;
+
+  return h(EditModeCtx.Provider,{value:layoutEditMode},
+    h("div",{className:"wrap"},
+      h("header",{className:"hero"},
+        h("div",{className:"hero-left"},
+          h("h1",{className:"hero-arabic"},"\u0627\u0644\u0652\u0642\u064f\u062f\u0652\u0648\u064e\u0629"),
+          h("div",{className:"hero-sub"},"Al-Qudwah")
+        ),
+        h("div",{className:"hero-right"},
+          h("div",{className:"sync-pill",title:isOnline&&isFirebaseConfigured?"Synced with Firebase Realtime Database":"Offline-First Mode: changes saved locally and sync automatically when online"},
+            h("span",{className:"sync-dot"+(isOnline&&isFirebaseConfigured?" ok":!isOnline?" off":"")}),
+            !isOnline
+              ?"Offline Mode \u00b7 Cached Locally"+(pendingDirtyCount?" ("+pendingDirtyCount+" pending)":"")
+              :isFirebaseConfigured?"Cloud Sync Active":"Local Cache Mode"
+          ),
+          h("div",{className:"stats"},
+            h("div",{className:"stat"},h("b",null,dCount+"/"+NT),h("span",null,"Today")),
+            h("div",{className:"stat"},h("b",null,streakOf(days,ids,today)),h("span",null,"Day streak"))
+          )
+        )
+      ),
+      h("nav",{className:"tabs",role:"tablist"},
+        visibleTabs.map(t=>h("button",{key:t.id,role:"tab",className:"tab","aria-selected":tab===t.id,onClick:()=>setTab(t.id)},t.title)),
+        h("button",{
+          type:"button",
+          className:"tab ws-btn",
+          "aria-label":"Workspace Manager",
+          "aria-expanded":wsOpen,
+          title:"Workspace Manager, Tag Filter & Edit Layout",
+          onClick:()=>setWsOpen(!wsOpen)
+        },"\u2699")
+      ),
+      wsOpen&&h(WorkspaceManager,{
+        tabs:tabsConfig,
+        setTabs:setRawTabs,
+        activeTab:tab,
+        setActiveTab:setTab,
+        layoutEditMode,
+        setLayoutEditMode,
+        allTags,
+        tagFlt,
+        setTagFlt,
+        onResetLayout:()=>setRawLayout(DEFAULT_LAYOUT),
+        onDeleteCustomTabData:id=>{
+          setCustomTabsData(prev=>{const next={...(prev||{})};delete next[id];return next});
+          setRawLayout(prev=>{const next={...(prev||{})};delete next[id];return next});
+        },
+        onClose:()=>setWsOpen(false)
+      }),
+      h("main",null,renderActiveTab()),
+      h("p",{className:"foot"},"Tip: use **bold**, *italic*, > quotes, [links](https://...), or #tags anywhere. Highlight words in the Morning Brief to translate.")
+    )
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));
+}
+startDashboard();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function() {
+    navigator.serviceWorker.register("/sw.js").catch(function(err) {
+      console.warn("Service Worker registration failed:", err);
+    });
+  });
+}
+</script>
+</body>
+</html>
